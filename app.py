@@ -96,6 +96,14 @@ def inject_girlie_theme() -> None:
             font-family: var(--font-ui);
         }
 
+        .stApp:has(.girlie-login) {
+            background: #ffffff;
+        }
+
+        .stApp:has(.girlie-login) [data-testid="stHeader"] {
+            background: rgba(255, 255, 255, 0.92);
+        }
+
         .block-container {
             padding-top: 1.15rem;
             padding-bottom: 3rem;
@@ -412,10 +420,10 @@ def inject_girlie_theme() -> None:
             font-family: var(--font-script);
             font-size: clamp(2.4rem, 9vw, 4.7rem);
             line-height: .95;
-            color: #7a1c77;
+            color: #111111;
             text-shadow:
-                0 0 16px rgba(255, 60, 172, .32),
-                0 0 24px rgba(255, 232, 117, .34);
+                0 1px 0 rgba(255, 255, 255, .92),
+                0 8px 18px rgba(17, 17, 17, .08);
         }
 
         .wallpaper-flower {
