@@ -425,9 +425,9 @@ def inject_girlie_theme() -> None:
             position: relative;
             width: min(860px, 96vw);
             min-height: 208px;
-            margin: .55rem auto .15rem;
+            margin: 1.15rem auto .15rem;
             text-align: center;
-            padding: 1.6rem 1.2rem .25rem;
+            padding: 1.9rem 1.2rem .25rem;
             overflow: visible;
         }
 
@@ -498,7 +498,7 @@ def inject_girlie_theme() -> None:
 
         .wallpaper-flower.three {
             left: 23%;
-            top: 2%;
+            top: 8%;
             --s: .68;
             --r: -22deg;
             animation-delay: 2.1s;
@@ -514,7 +514,7 @@ def inject_girlie_theme() -> None:
 
         .wallpaper-flower.five {
             left: 41%;
-            top: -7%;
+            top: 4%;
             --s: .54;
             --r: 12deg;
             animation-delay: 1.7s;
