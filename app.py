@@ -10,10 +10,13 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+from PIL import Image
 
 
 APP_DIR = Path(__file__).parent
 DATA_FILE = APP_DIR / "data" / "payment_data.json"
+APP_ICON_FILE = APP_DIR / "assets" / "app-icon.png"
+APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
 
 
 DEFAULT_DATA = {
@@ -55,7 +58,7 @@ DEFAULT_DATA = {
 }
 
 
-st.set_page_config(page_title="My Nest Egg", page_icon="💳", layout="wide")
+st.set_page_config(page_title="My Nest Egg", page_icon=Image.open(APP_ICON_FILE), layout="wide")
 
 
 def image_data_uri(path: Path) -> str:
@@ -63,6 +66,19 @@ def image_data_uri(path: Path) -> str:
         return ""
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
     return f"data:image/png;base64,{encoded}"
+
+
+def inject_app_icon_links() -> None:
+    icon = image_data_uri(APP_ICON_FILE)
+    apple_icon = image_data_uri(APPLE_TOUCH_ICON_FILE)
+    st.markdown(
+        f"""
+        <link rel="icon" type="image/png" href="{icon}">
+        <link rel="apple-touch-icon" href="{apple_icon}">
+        <meta name="apple-mobile-web-app-title" content="My Nest Egg">
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def inject_girlie_theme() -> None:
@@ -1377,6 +1393,7 @@ def render_plan(plan: dict) -> None:
 
 def main() -> None:
     inject_girlie_theme()
+    inject_app_icon_links()
     require_password()
     init_state()
 
