@@ -1,0 +1,187 @@
+{
+  "settings": {
+    "pay_date": "2026-06-12",
+    "cash_now": 2231.82,
+    "reserve": 0.0,
+    "groceries": 150.0,
+    "sofi": 0.0,
+    "mom_debt": 2444342.74,
+    "mom_first": true,
+    "debts_first": true,
+    "strategy": "Highest APR"
+  },
+  "cards": [
+    {
+      "Tarjeta": "Victoria Secret",
+      "APR %": 31.24,
+      "Cupo": 1000.0,
+      "Saldo": 0.0,
+      "Dia pago": 20,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "Amex Blue",
+      "APR %": 29.24,
+      "Cupo": 1000.0,
+      "Saldo": 893.0,
+      "Dia pago": 9,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "TD",
+      "APR %": 27.24,
+      "Cupo": 1200.0,
+      "Saldo": 1213.0,
+      "Dia pago": 22,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "Amex Amazon",
+      "APR %": 26.49,
+      "Cupo": 2100.0,
+      "Saldo": 2819.0,
+      "Dia pago": 20,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "Discover",
+      "APR %": 26.49,
+      "Cupo": 3000.0,
+      "Saldo": 2851.0,
+      "Dia pago": 15,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "Apple",
+      "APR %": 26.24,
+      "Cupo": 2000.0,
+      "Saldo": 739.0,
+      "Dia pago": 30,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": ""
+    },
+    {
+      "Tarjeta": "Chase",
+      "APR %": 0.0,
+      "Cupo": 2500.0,
+      "Saldo": 2052.0,
+      "Dia pago": 8,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": "0% APR promo"
+    },
+    {
+      "Tarjeta": "Bancolombia",
+      "APR %": 0.0,
+      "Cupo": 0.0,
+      "Saldo": 1700000.0,
+      "Dia pago": 3,
+      "Minimo toca": false,
+      "Minimo": 0.0,
+      "Gasto extra": 0.0,
+      "Notas": "COP"
+    }
+  ],
+  "expenses": [
+    {
+      "Categoria": "Colombia",
+      "Nombre": "Mom allowance",
+      "Cuenta/Tarjeta": "Checking",
+      "Monto quincena": 85.0,
+      "Tipo": "Fijo",
+      "Incluir": false,
+      "Notas": ""
+    },
+    {
+      "Categoria": "Colombia",
+      "Nombre": "New apartment",
+      "Cuenta/Tarjeta": "Bancolombia",
+      "Monto quincena": 420.0,
+      "Tipo": "Fijo",
+      "Incluir": false,
+      "Notas": "Apartar cada quincena"
+    },
+    {
+      "Categoria": "Colombia",
+      "Nombre": "Don Guillermo rent",
+      "Cuenta/Tarjeta": "Checking",
+      "Monto quincena": 440.0,
+      "Tipo": "Fijo",
+      "Incluir": false,
+      "Notas": "Enviar completo a final de mes"
+    },
+    {
+      "Categoria": "Zelle",
+      "Nombre": "Innago / rent",
+      "Cuenta/Tarjeta": "Checking",
+      "Monto quincena": 1051.0,
+      "Tipo": "Fijo",
+      "Incluir": false,
+      "Notas": "Apartar cada quincena"
+    },
+    {
+      "Categoria": "Zelle",
+      "Nombre": "Gym",
+      "Cuenta/Tarjeta": "Checking",
+      "Monto quincena": 80.0,
+      "Tipo": "Fijo",
+      "Incluir": false,
+      "Notas": ""
+    },
+    {
+      "Categoria": "TD",
+      "Nombre": "Apple Bill / Cloud",
+      "Cuenta/Tarjeta": "TD",
+      "Monto quincena": 10.0,
+      "Tipo": "Auto debit",
+      "Incluir": false,
+      "Notas": ""
+    },
+    {
+      "Categoria": "TD",
+      "Nombre": "Google Play / Gmail",
+      "Cuenta/Tarjeta": "TD",
+      "Monto quincena": 4.0,
+      "Tipo": "Auto debit",
+      "Incluir": false,
+      "Notas": ""
+    },
+    {
+      "Categoria": "Amex Amazon",
+      "Nombre": "Amazon Prime",
+      "Cuenta/Tarjeta": "Amex Amazon",
+      "Monto quincena": 15.0,
+      "Tipo": "Auto debit",
+      "Incluir": false,
+      "Notas": ""
+    }
+  ],
+  "personal_debts": [
+    {
+      "Name": "Mom",
+      "Amount": 2444342.74,
+      "Priority": 1,
+      "Include": true,
+      "Notes": ""
+    }
+  ],
+  "history": []
+}

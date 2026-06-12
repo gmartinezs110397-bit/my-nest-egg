@@ -1,30 +1,31 @@
 # My Nest Egg
 
-App Streamlit independiente para planear pagos de tarjetas por quincena.
+Private Streamlit app for planning credit card payments, personal debts, expenses, and payoff history.
 
-## Ejecutar local
+## Run locally
 
-```bash
-pip install -r requirements.txt
-streamlit run app.py
+```powershell
+python -m streamlit run app.py
 ```
 
-## Publicar en Streamlit Cloud
+## Streamlit Cloud deploy
 
-1. Crea un repo nuevo, separado de Plan de Choque. Nombre sugerido: `my-nest-egg`.
-2. Sube estos archivos al repo.
-3. En Streamlit Cloud, crea una app nueva apuntando a `app.py`.
-4. En `Settings > Secrets`, agrega:
+Entrypoint:
+
+```text
+app.py
+```
+
+Python dependencies are in:
+
+```text
+requirements.txt
+```
+
+Add this secret in Streamlit Cloud:
 
 ```toml
-APP_PASSWORD = "tu-contrasena"
+APP_PASSWORD = "your-4-digit-passcode"
 ```
 
-5. Comparte la URL pública solo con quien deba verla.
-
-## Datos
-
-La app guarda la información en `data/payment_data.json`.
-También tiene export/import de respaldo JSON desde la pestaña `Datos`.
-
-Nota: si la app queda pública sin contraseña, cualquier persona con el link podría verla.
+The local `.streamlit/secrets.toml` file is intentionally ignored by git.
