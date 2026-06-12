@@ -1015,16 +1015,33 @@ def render_debts_editor(debts: pd.DataFrame) -> pd.DataFrame:
         default_name = str(debt.get("Name", ""))
         label_name = default_name or f"Debt {index + 1}"
         with st.expander(label_name, expanded=index == 0):
-            c1, c2, c3 = st.columns([1.15, 1, .75])
+            order_col, c1, c2, c3 = st.columns([.42, 1.15, 1, .65])
+            with order_col:
+                st.markdown("Move")
+                up_disabled = index == 0
+                down_disabled = index >= len(debts) - 1
+                if st.button("↑", key=f"debt_move_up_{index}", disabled=up_disabled, use_container_width=True):
+                    st.session_state.data["personal_debts"][index - 1], st.session_state.data["personal_debts"][index] = (
+                        st.session_state.data["personal_debts"][index],
+                        st.session_state.data["personal_debts"][index - 1],
+                    )
+                    save_data(st.session_state.data)
+                    st.rerun()
+                if st.button("↓", key=f"debt_move_down_{index}", disabled=down_disabled, use_container_width=True):
+                    st.session_state.data["personal_debts"][index + 1], st.session_state.data["personal_debts"][index] = (
+                        st.session_state.data["personal_debts"][index],
+                        st.session_state.data["personal_debts"][index + 1],
+                    )
+                    save_data(st.session_state.data)
+                    st.rerun()
             with c1:
                 name = st.text_input("Name", value=default_name, key=f"debt_name_{index}")
                 notes = st.text_input("Notes", value=str(debt.get("Notes", "")), key=f"debt_notes_{index}")
             with c2:
                 amount = money_text_input("Amount left", parse_money(str(debt.get("Amount", 0.0))), f"debt_amount_{index}")
             with c3:
-                priority = st.number_input("Priority", value=int(float(debt.get("Priority", index + 1) or index + 1)), min_value=1, step=1, key=f"debt_priority_{index}")
                 include = st.checkbox("Include", value=bool(debt.get("Include", True)), key=f"debt_include_{index}")
-            edited_rows.append({"Name": name, "Amount": amount, "Priority": priority, "Include": include, "Notes": notes})
+            edited_rows.append({"Name": name, "Amount": amount, "Priority": index + 1, "Include": include, "Notes": notes})
     return pd.DataFrame(edited_rows, columns=list(DEFAULT_DATA["personal_debts"][0].keys()))
 
 
@@ -1033,11 +1050,11 @@ def render_debt_snapshot(debts: pd.DataFrame) -> None:
         st.info("No personal debts yet.")
         return
     rows = []
-    for _, debt in debts.sort_values(["Priority", "Name"]).iterrows():
+    for index, debt in debts.reset_index(drop=True).iterrows():
         rows.append(
             {
-                "title": f"#{int(float(debt.get('Priority', 1) or 1))} {debt.get('Name', '')}",
-                "meta": "Included" if bool(debt.get("Include", True)) else "Paused",
+                "title": str(debt.get("Name", "")),
+                "meta": "Top priority" if index == 0 else ("Included" if bool(debt.get("Include", True)) else "Paused"),
                 "amount": parse_money(str(debt.get("Amount", 0.0))),
             }
         )
@@ -1139,7 +1156,10 @@ def personal_debts_df() -> pd.DataFrame:
 
 
 def save_personal_debts(debts: pd.DataFrame) -> None:
-    st.session_state.data["personal_debts"] = debts.fillna("").to_dict("records")
+    cleaned = debts.fillna("").to_dict("records")
+    for index, debt in enumerate(cleaned, start=1):
+        debt["Priority"] = index
+    st.session_state.data["personal_debts"] = cleaned
     save_data(st.session_state.data)
 
 
@@ -1212,10 +1232,10 @@ def calculate_plan(settings: dict, cards: pd.DataFrame, expenses: pd.DataFrame, 
     debt_target = None
     debt_extra_pool = max(0.0, after_required) if settings.get("debts_first", settings.get("mom_first", True)) else 0.0
     if debt_extra_pool > 0 and not personal_debts.empty:
-        debts = personal_debts.copy()
+        debts = personal_debts.reset_index(drop=True).copy()
         debts["Amount"] = pd.to_numeric(debts["Amount"], errors="coerce").fillna(0.0)
-        debts["Priority"] = pd.to_numeric(debts["Priority"], errors="coerce").fillna(9999)
-        debts = debts[debts["Include"].fillna(True).astype(bool) & (debts["Amount"] > 0)].sort_values(["Priority", "Name"])
+        debts["Priority"] = debts.index + 1
+        debts = debts[debts["Include"].fillna(True).astype(bool) & (debts["Amount"] > 0)]
         remaining_pool = debt_extra_pool
         for _, debt in debts.iterrows():
             pay = min(float(debt["Amount"]), remaining_pool)
