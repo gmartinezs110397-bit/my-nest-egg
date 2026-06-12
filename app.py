@@ -1385,18 +1385,33 @@ def main() -> None:
 
     settings = settings_panel()
 
-    tab_plan, tab_cards, tab_expenses, tab_debts, tab_history, tab_data = st.tabs(["Plan", "Cards", "Expenses", "Debts", "History", "Data"])
+    tab_plan, tab_history_data = st.tabs(["Plan", "History & Data"])
 
-    with tab_cards:
-        st.subheader("Cards")
+    with tab_plan:
+        st.subheader("Personal Debts")
+        debts_current = personal_debts_df()
+        total_debt = float(pd.to_numeric(debts_current["Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
+        active_debt = float(pd.to_numeric(debts_current.loc[debts_current["Include"].fillna(True).astype(bool), "Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
+        d1, d2 = st.columns(2)
+        d1.metric("Total personal debt", money(total_debt))
+        d2.metric("Active priority amount", money(active_debt))
+        render_debt_snapshot(debts_current)
+
+        if st.button("Add personal debt", use_container_width=True):
+            st.session_state.data["personal_debts"].append({"Name": "New debt", "Amount": 0.0, "Priority": len(debts_current) + 1, "Include": True, "Notes": ""})
+            save_data(st.session_state.data)
+            st.rerun()
+
+        with st.expander("Edit personal debts", expanded=False):
+            debts = render_debts_editor(debts_current)
+            if st.button("Save debts", type="primary"):
+                save_personal_debts(debts)
+                st.success("Debts saved.")
+
+        st.divider()
+        st.subheader("Credit Cards")
         card_summary = cards_df()
-        total_limit = float(pd.to_numeric(card_summary["Cupo"], errors="coerce").fillna(0.0).sum()) if not card_summary.empty else 0.0
-        total_used = float(pd.to_numeric(card_summary["Saldo"], errors="coerce").fillna(0.0).sum()) if not card_summary.empty else 0.0
-        total_available = max(0.0, total_limit - total_used)
-        avg_apr = float(pd.to_numeric(card_summary["APR %"], errors="coerce").fillna(0.0).mean()) if not card_summary.empty else 0.0
-
-        render_credit_totals(total_limit, total_used, total_available, avg_apr)
-        render_credit_snapshot(card_summary)
+        render_plan_credit_cards(card_summary)
 
         with st.expander("Add credit card", expanded=False):
             with st.form("add_credit_card_form", clear_on_submit=True):
@@ -1435,13 +1450,13 @@ def main() -> None:
                     st.success("Credit card added.")
                     st.rerun()
 
-        st.markdown("#### Edit card details")
-        cards = render_cards_editor(card_summary)
-        if st.button("Save cards", type="primary"):
-            save_tables(cards, expenses_df())
-            st.success("Cards saved.")
+        with st.expander("Edit full card details", expanded=False):
+            cards = render_cards_editor(card_summary)
+            if st.button("Save cards", type="primary"):
+                save_tables(cards, expenses_df())
+                st.success("Cards saved.")
 
-    with tab_expenses:
+        st.divider()
         st.subheader("Expenses and Debits")
         expenses = st.data_editor(
             expenses_df(),
@@ -1462,35 +1477,18 @@ def main() -> None:
             save_tables(cards_df(), expenses)
             st.success("Expenses saved.")
 
-    with tab_debts:
-        st.subheader("Personal Debts")
-        debts_current = personal_debts_df()
-        total_debt = float(pd.to_numeric(debts_current["Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
-        active_debt = float(pd.to_numeric(debts_current.loc[debts_current["Include"].fillna(True).astype(bool), "Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
-        d1, d2 = st.columns(2)
-        d1.metric("Total personal debt", money(total_debt))
-        d2.metric("Active priority amount", money(active_debt))
-        render_debt_snapshot(debts_current)
+        st.divider()
+        st.subheader("Summary")
+        current_cards = cards_df()
+        current_expenses = expenses_df()
+        current_debts = personal_debts_df()
+        total_limit = float(pd.to_numeric(current_cards["Cupo"], errors="coerce").fillna(0.0).sum()) if not current_cards.empty else 0.0
+        total_used = float(pd.to_numeric(current_cards["Saldo"], errors="coerce").fillna(0.0).sum()) if not current_cards.empty else 0.0
+        total_available = max(0.0, total_limit - total_used)
+        avg_apr = float(pd.to_numeric(current_cards["APR %"], errors="coerce").fillna(0.0).mean()) if not current_cards.empty else 0.0
+        render_credit_totals(total_limit, total_used, total_available, avg_apr)
 
-        if st.button("Add personal debt", use_container_width=True):
-            st.session_state.data["personal_debts"].append({"Name": "New debt", "Amount": 0.0, "Priority": len(debts_current) + 1, "Include": True, "Notes": ""})
-            save_data(st.session_state.data)
-            st.rerun()
-
-        st.markdown("#### Edit debt details")
-        debts = render_debts_editor(debts_current)
-        if st.button("Save debts", type="primary"):
-            save_personal_debts(debts)
-            st.success("Debts saved.")
-
-    current_cards = cards_df()
-    current_expenses = expenses_df()
-    current_debts = personal_debts_df()
-    plan = calculate_plan(settings, current_cards, current_expenses, current_debts)
-
-    with tab_plan:
-        st.markdown("#### Credit snapshot")
-        render_plan_credit_cards(current_cards)
+        plan = calculate_plan(settings, current_cards, current_expenses, current_debts)
         render_plan(plan)
         if st.button("Save this paycheck snapshot", type="primary"):
             target_name = plan["target"]["Tarjeta"] if plan["target"] is not None else ""
@@ -1507,7 +1505,7 @@ def main() -> None:
             save_data(st.session_state.data)
             st.success("Snapshot saved.")
 
-    with tab_history:
+    with tab_history_data:
         st.subheader("History")
         history = pd.DataFrame(st.session_state.data["history"])
         if history.empty:
@@ -1521,7 +1519,7 @@ def main() -> None:
             save_data(st.session_state.data)
             st.rerun()
 
-    with tab_data:
+        st.divider()
         st.subheader("Backup")
         payload = json.dumps(st.session_state.data, indent=2, ensure_ascii=False)
         st.download_button("Download JSON backup", payload, file_name="my_nest_egg_backup.json", mime="application/json")
