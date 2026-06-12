@@ -17,6 +17,7 @@ APP_DIR = Path(__file__).parent
 DATA_FILE = APP_DIR / "data" / "payment_data.json"
 APP_ICON_FILE = APP_DIR / "assets" / "app-icon.png"
 APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
+LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
 
 
 DEFAULT_DATA = {
@@ -82,9 +83,14 @@ def inject_app_icon_links() -> None:
 
 
 def inject_girlie_theme() -> None:
+    login_bg = image_data_uri(LOGIN_BG_FILE)
     st.markdown(
         """
         <style>
+        :root {
+            --login-bg: url('__LOGIN_BG__');
+        }
+
         @import url('https://fonts.googleapis.com/css2?family=Arima:wght@400;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Fugaz+One&family=Grand+Hotel&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         :root {
@@ -113,11 +119,22 @@ def inject_girlie_theme() -> None:
         }
 
         .stApp:has(.girlie-login) {
-            background: #ffffff;
+            min-height: 100vh;
+            background:
+                linear-gradient(180deg, rgba(122, 143, 220, .18), rgba(255, 174, 205, .12)),
+                var(--login-bg);
+            background-size: cover;
+            background-position: center center;
+            background-repeat: no-repeat;
         }
 
         .stApp:has(.girlie-login) [data-testid="stHeader"] {
-            background: rgba(255, 255, 255, 0.92);
+            background: transparent;
+        }
+
+        .stApp:has(.girlie-login) .block-container {
+            max-width: 1120px;
+            padding-top: 2.4rem;
         }
 
         .block-container {
@@ -424,10 +441,10 @@ def inject_girlie_theme() -> None:
         .girlie-login {
             position: relative;
             width: min(860px, 96vw);
-            min-height: 208px;
-            margin: 1.15rem auto .15rem;
+            min-height: 222px;
+            margin: 1.1rem auto .25rem;
             text-align: center;
-            padding: 1.9rem 1.2rem .25rem;
+            padding: 1.35rem 1.2rem .15rem;
             overflow: visible;
         }
 
@@ -436,49 +453,61 @@ def inject_girlie_theme() -> None:
         }
 
         .girlie-login::after {
-            content: "";
+            content: "✦";
             position: absolute;
-            inset: -4rem -1rem -8rem;
-            background:
-                radial-gradient(circle at 6% 18%, rgba(255, 159, 143, .68) 0 7px, transparent 8px),
-                radial-gradient(circle at 11% 24%, rgba(255, 232, 117, .82) 0 5px, transparent 6px),
-                radial-gradient(circle at 25% 8%, rgba(255, 183, 207, .74) 0 6px, transparent 7px),
-                radial-gradient(circle at 77% 10%, rgba(199, 164, 255, .68) 0 8px, transparent 9px),
-                radial-gradient(circle at 86% 19%, rgba(255, 232, 117, .78) 0 5px, transparent 6px),
-                radial-gradient(circle at 18% 82%, rgba(199, 164, 255, .55) 0 7px, transparent 8px),
-                radial-gradient(circle at 55% 92%, rgba(255, 232, 117, .72) 0 5px, transparent 6px),
-                radial-gradient(circle at 82% 78%, rgba(255, 159, 143, .58) 0 7px, transparent 8px);
-            animation: cloudDrift 8s ease-in-out infinite;
+            right: 7%;
+            top: 38%;
+            color: rgba(255, 249, 219, .86);
+            font-size: 1.45rem;
+            text-shadow: 0 0 18px rgba(255, 247, 191, .72);
+            animation: sparkle 3.8s ease-in-out infinite;
             pointer-events: none;
         }
 
         .hello-lockup {
             position: relative;
             z-index: 1;
-            margin: .15rem auto 1rem;
-            color: var(--ink);
+            margin: .1rem auto .95rem;
+            color: white;
         }
 
         .hello-line {
             display: block;
+            letter-spacing: 0;
+            text-shadow: 0 10px 32px rgba(86, 78, 154, .18);
+        }
+
+        .hello-serif {
+            display: inline-flex;
+            align-items: center;
+            gap: .36rem;
+            color: rgba(255, 255, 255, .94);
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(3.2rem, 8vw, 5.2rem);
+            font-weight: 650;
+            line-height: .84;
+        }
+
+        .hello-heart {
+            color: #ffd1e3;
             font-family: var(--font-script);
-            font-size: clamp(2.4rem, 9vw, 4.7rem);
-            line-height: .95;
-            color: #111111;
-            text-shadow:
-                0 1px 0 rgba(255, 255, 255, .92),
-                0 8px 18px rgba(17, 17, 17, .08);
+            font-size: .74em;
+            font-weight: 400;
+            text-shadow: 0 0 16px rgba(255, 180, 216, .72);
+        }
+
+        .hello-script {
+            display: block;
+            margin-top: .1rem;
+            color: rgba(255, 248, 191, .94);
+            font-family: var(--font-script);
+            font-size: clamp(3.15rem, 8.4vw, 5rem);
+            font-weight: 400;
+            line-height: .76;
         }
 
         .wallpaper-flower {
-            position: absolute;
-            z-index: 1;
-            --s: 1;
-            --r: -5deg;
-            width: 42px;
-            height: 42px;
-            filter: drop-shadow(0 0 12px rgba(255, 60, 172, .35));
-            animation: flowerFloat 5.5s ease-in-out infinite;
+            display: none;
         }
 
         .wallpaper-flower.one {
@@ -589,34 +618,50 @@ def inject_girlie_theme() -> None:
         }
 
         .passcode-dot {
-            width: .82rem;
-            height: .82rem;
+            width: 1.08rem;
+            height: 1.08rem;
             border-radius: 50%;
-            border: 2px solid rgba(63, 43, 88, .40);
-            background: rgba(255, 255, 255, .34);
-            backdrop-filter: blur(10px);
-            box-shadow: 0 2px 14px rgba(255, 159, 143, .20);
+            border: 3px solid rgba(255, 255, 255, .84);
+            background: rgba(255, 255, 255, .16);
+            box-shadow: 0 0 18px rgba(255, 255, 255, .32);
         }
 
         .passcode-dot.filled {
-            border-color: rgba(255,255,255,.85);
-            background: var(--neon-pink);
-            box-shadow: 0 0 16px rgba(255, 60, 172, .58), 0 0 24px rgba(255, 232, 117, .38);
+            border-color: rgba(255,255,255,.98);
+            background: rgba(255, 255, 255, .98);
+            box-shadow: 0 0 22px rgba(255, 255, 255, .55);
         }
 
         .passcode-grid-marker {
-            width: min(300px, 92vw);
+            position: relative;
+            width: min(460px, 92vw);
             height: 0;
-            margin: 0 auto;
+            margin: 0 auto .15rem;
+        }
+
+        .passcode-grid-marker::before {
+            content: "";
+            position: absolute;
+            left: 50%;
+            top: -.55rem;
+            transform: translateX(-50%);
+            width: min(520px, 92vw);
+            height: 23.6rem;
+            border: 1px solid rgba(255, 255, 255, .54);
+            border-radius: 32px;
+            background: rgba(255, 255, 255, .16);
+            backdrop-filter: blur(18px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.38), 0 24px 70px rgba(89, 74, 148, .12);
+            pointer-events: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-            width: min(270px, 92vw);
+            width: min(380px, 84vw);
             margin-left: auto;
             margin-right: auto;
             display: flex !important;
             flex-direction: row !important;
-            gap: .55rem !important;
+            gap: 1.35rem !important;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stColumn"] {
@@ -626,25 +671,25 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-            width: 3.9rem;
-            height: 3.9rem;
-            min-height: 3.9rem;
-            margin: .05rem auto;
+            width: 4.25rem;
+            height: 4.25rem;
+            min-height: 4.25rem;
+            margin: .18rem auto;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, .55);
-            background: rgba(255, 255, 255, .25);
-            backdrop-filter: blur(14px);
-            box-shadow: 0 12px 28px rgba(63, 43, 88, .12), inset 0 1px 0 rgba(255,255,255,.55);
-            color: var(--ink);
-            font-size: 1.28rem;
+            border: 1px solid rgba(255, 255, 255, .62);
+            background: rgba(255, 255, 255, .18);
+            backdrop-filter: blur(16px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(83, 70, 146, .08);
+            color: rgba(76, 73, 134, .86);
+            font-size: 1.58rem;
             font-family: var(--font-ui);
-            font-weight: 600;
+            font-weight: 500;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
-            border-color: rgba(255, 60, 172, .50);
-            color: #7a1c77;
-            box-shadow: 0 0 0 1px rgba(255,255,255,.44), 0 0 22px rgba(255, 159, 143, .34);
+            border-color: rgba(255, 255, 255, .88);
+            color: rgba(72, 70, 132, .98);
+            box-shadow: 0 0 0 1px rgba(255,255,255,.44), 0 0 24px rgba(255, 255, 255, .34);
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
@@ -652,7 +697,7 @@ def inject_girlie_theme() -> None:
             background: transparent;
             box-shadow: none;
             border-color: transparent;
-            font-size: .82rem;
+            font-size: 1.02rem;
             font-weight: 600;
         }
 
@@ -676,7 +721,7 @@ def inject_girlie_theme() -> None:
             50% { opacity: 1; transform: scale(1.2) rotate(14deg); }
         }
         </style>
-        """,
+        """.replace("__LOGIN_BG__", login_bg),
         unsafe_allow_html=True,
     )
 
@@ -696,7 +741,8 @@ def render_login_hero() -> None:
             <div class="wallpaper-flower five"><span></span><span></span><span></span><span></span><span></span><b></b></div>
             <div class="wallpaper-flower six"><span></span><span></span><span></span><span></span><span></span><b></b></div>
             <div class="hello-lockup">
-                <span class="hello-line">Hello, baby girl.</span>
+                <span class="hello-line hello-serif">Hello,<span class="hello-heart">♡</span></span>
+                <span class="hello-line hello-script">baby girl</span>
             </div>
             <div class="passcode-dots">{dots}</div>
         </div>
@@ -1107,7 +1153,6 @@ def require_password() -> None:
     st.session_state.setdefault("passcode_error", False)
 
     render_login_hero()
-    st.markdown('<div class="passcode-grid-marker"></div>', unsafe_allow_html=True)
 
     def add_digit(digit: str) -> None:
         st.session_state.passcode_input = (st.session_state.passcode_input + digit)[-PASSCODE_LENGTH:]
@@ -1130,15 +1175,17 @@ def require_password() -> None:
             st.session_state.passcode_input = ""
             st.session_state.passcode_error = True
 
-    for row in (("1", "2", "3"), ("4", "5", "6"), ("7", "8", "9")):
-        cols = st.columns(3)
-        for col, digit in zip(cols, row):
-            col.button(digit, key=f"passcode_{digit}", use_container_width=True, on_click=add_digit, args=(digit,))
+    with st.container():
+        st.markdown('<div class="passcode-grid-marker"></div>', unsafe_allow_html=True)
+        for row in (("1", "2", "3"), ("4", "5", "6"), ("7", "8", "9")):
+            cols = st.columns(3)
+            for col, digit in zip(cols, row):
+                col.button(digit, key=f"passcode_{digit}", use_container_width=True, on_click=add_digit, args=(digit,))
 
-    cols = st.columns(3)
-    cols[0].button("Del", key="passcode_backspace", use_container_width=True, on_click=backspace)
-    cols[1].button("0", key="passcode_0", use_container_width=True, on_click=add_digit, args=("0",))
-    cols[2].button("Clear", key="passcode_clear", use_container_width=True, on_click=clear_passcode)
+        cols = st.columns(3)
+        cols[0].button("Del", key="passcode_backspace", use_container_width=True, on_click=backspace)
+        cols[1].button("0", key="passcode_0", use_container_width=True, on_click=add_digit, args=("0",))
+        cols[2].button("Clear", key="passcode_clear", use_container_width=True, on_click=clear_passcode)
 
     if st.session_state.get("authenticated"):
         st.rerun()
