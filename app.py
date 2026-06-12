@@ -270,6 +270,34 @@ def inject_girlie_theme() -> None:
             font-weight: 700;
         }
 
+        .quick-card-title {
+            color: var(--ink);
+            font-family: var(--font-display);
+            font-size: 1.08rem;
+            font-weight: 750;
+            line-height: 1.2;
+            margin: .15rem 0 .1rem;
+        }
+
+        .quick-card-meta {
+            color: rgba(63, 43, 88, .72);
+            font-size: .82rem;
+            font-weight: 700;
+        }
+
+        .quick-card-value {
+            color: var(--ink);
+            font-family: var(--font-ui);
+            font-size: 1.08rem;
+            font-weight: 850;
+            line-height: 1.18;
+            white-space: nowrap;
+        }
+
+        div[data-testid="stPopover"] button {
+            border-radius: 999px;
+        }
+
         .payment-list {
             display: grid;
             gap: .55rem;
@@ -817,6 +845,76 @@ def render_credit_snapshot(cards: pd.DataFrame) -> None:
             ).strip()
         )
     st.markdown(f'<div class="credit-grid">{"".join(items)}</div>', unsafe_allow_html=True)
+
+
+def render_plan_credit_cards(cards: pd.DataFrame) -> None:
+    if cards.empty:
+        st.info("No cards yet.")
+        return
+
+    rows = cards.reset_index(drop=True)
+    for start in range(0, len(rows), 2):
+        cols = st.columns(2)
+        for offset, col in enumerate(cols):
+            card_index = start + offset
+            if card_index >= len(rows):
+                continue
+            card = rows.iloc[card_index]
+            name = str(card.get("Tarjeta", "Card")) or f"Card {card_index + 1}"
+            apr = card_number(card, "APR %")
+            limit = card_number(card, "Cupo")
+            used = card_number(card, "Saldo")
+            available = max(0.0, limit - used)
+            utilization = (used / limit * 100) if limit > 0 else 0.0
+
+            with col.container(border=True):
+                header_left, header_apr, header_edit = st.columns([1, .55, .24], vertical_alignment="center")
+                with header_left:
+                    st.markdown(f'<div class="quick-card-title">{html.escape(name)}</div>', unsafe_allow_html=True)
+                with header_apr:
+                    st.markdown(f'<div class="apr-pill">{apr:.2f}% APR</div>', unsafe_allow_html=True)
+                with header_edit:
+                    with st.popover("✎", use_container_width=True):
+                        with st.form(f"quick_card_edit_{card_index}"):
+                            st.caption(f"Edit {name}")
+                            new_apr = st.number_input(
+                                "APR %",
+                                value=apr,
+                                min_value=0.0,
+                                step=0.25,
+                                format="%.2f",
+                                key=f"plan_card_apr_{card_index}",
+                            )
+                            new_limit = st.text_input(
+                                "Total limit",
+                                value=money_field_initial(limit),
+                                placeholder="$0.00",
+                                key=f"plan_card_limit_{card_index}",
+                            )
+                            new_used = st.text_input(
+                                "Used amount",
+                                value=money_field_initial(used),
+                                placeholder="$0.00",
+                                key=f"plan_card_used_{card_index}",
+                            )
+                            submitted = st.form_submit_button("Save", type="primary", use_container_width=True)
+                            if submitted:
+                                st.session_state.data["cards"][card_index]["APR %"] = float(new_apr)
+                                st.session_state.data["cards"][card_index]["Cupo"] = parse_money(new_limit)
+                                st.session_state.data["cards"][card_index]["Saldo"] = parse_money(new_used)
+                                save_data(st.session_state.data)
+                                st.success("Card updated.")
+                                st.rerun()
+
+                v1, v2 = st.columns(2)
+                with v1:
+                    st.markdown('<div class="quick-card-meta">Total limit</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="quick-card-value">{money(limit)}</div>', unsafe_allow_html=True)
+                with v2:
+                    st.markdown('<div class="quick-card-meta">Used</div>', unsafe_allow_html=True)
+                    st.markdown(f'<div class="quick-card-value">{money(used)}</div>', unsafe_allow_html=True)
+
+                st.progress(min(1.0, max(0.0, utilization / 100)), text=f"{money(available)} available · {utilization:.0f}% used")
 
 
 def render_credit_totals(total_limit: float, total_used: float, total_available: float, avg_apr: float) -> None:
@@ -1372,7 +1470,7 @@ def main() -> None:
 
     with tab_plan:
         st.markdown("#### Credit snapshot")
-        render_credit_snapshot(current_cards)
+        render_plan_credit_cards(current_cards)
         render_plan(plan)
         if st.button("Save this paycheck snapshot", type="primary"):
             target_name = plan["target"]["Tarjeta"] if plan["target"] is not None else ""
