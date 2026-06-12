@@ -216,6 +216,126 @@ def inject_girlie_theme() -> None:
             white-space: nowrap;
         }
 
+        .field-card-head {
+            display: flex;
+            align-items: center;
+            gap: .55rem;
+            margin-bottom: .25rem;
+        }
+
+        .field-card-icon,
+        .mini-card-icon {
+            display: inline-flex;
+            width: 2.1rem;
+            height: 2.1rem;
+            border-radius: 8px;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 900;
+        }
+
+        .field-card-icon.purple, .mini-card-icon.purple { color: #7c3aed; background: rgba(124, 58, 237, .12); }
+        .field-card-icon.pink, .mini-card-icon.pink { color: #ff2f9f; background: rgba(255, 47, 159, .12); }
+        .field-card-icon.blue, .mini-card-icon.blue { color: #2f8cff; background: rgba(47, 140, 255, .12); }
+        .field-card-icon.teal, .mini-card-icon.teal { color: #10a7a0; background: rgba(16, 167, 160, .12); }
+        .field-card-icon.orange, .mini-card-icon.orange { color: #ff7a1a; background: rgba(255, 122, 26, .12); }
+        .field-card-icon.yellow, .mini-card-icon.yellow { color: #f6a800; background: rgba(255, 193, 7, .16); }
+
+        .field-card-label {
+            color: rgba(63, 43, 88, .78);
+            font-size: .76rem;
+            font-weight: 800;
+            line-height: 1.15;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.field-card-marker) {
+            min-height: 7.2rem;
+            padding: .85rem .9rem .75rem;
+            border: 1px solid rgba(255, 204, 222, .56);
+            border-radius: 8px;
+            background: rgba(255,255,255,.84);
+            box-shadow: 0 10px 26px rgba(63, 43, 88, .06);
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.field-card-marker) [data-testid="stWidgetLabel"] {
+            display: none;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.field-card-marker) input {
+            color: #352153;
+            font-weight: 850;
+        }
+
+        .debt-total-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+            gap: .65rem;
+            margin: .25rem 0 .7rem;
+        }
+
+        .mini-card {
+            display: flex;
+            align-items: center;
+            gap: .75rem;
+            border: 1px solid rgba(255, 204, 222, .56);
+            border-radius: 8px;
+            background: rgba(255,255,255,.84);
+            padding: .85rem .95rem;
+            box-shadow: 0 10px 26px rgba(63, 43, 88, .06);
+            min-width: 0;
+        }
+
+        .mini-card-label {
+            color: rgba(63, 43, 88, .72);
+            font-size: .75rem;
+            font-weight: 850;
+        }
+
+        .mini-card-value {
+            color: #3f2b58;
+            font-size: 1.05rem;
+            font-weight: 900;
+            white-space: nowrap;
+        }
+
+        .debt-row-card {
+            display: grid;
+            grid-template-columns: auto 1fr auto auto;
+            align-items: center;
+            gap: .75rem;
+            border-bottom: 1px dashed rgba(255, 47, 159, .22);
+            padding: .75rem .35rem .85rem;
+            margin-bottom: .2rem;
+        }
+
+        .debt-row-name {
+            color: var(--ink);
+            font-family: var(--font-display);
+            font-size: 1rem;
+            font-weight: 780;
+            line-height: 1.1;
+        }
+
+        .debt-row-meta {
+            color: #7c3aed;
+            font-size: .76rem;
+            font-weight: 750;
+            margin-top: .12rem;
+        }
+
+        .debt-row-amount {
+            color: #ff2f9f;
+            font-weight: 950;
+            white-space: nowrap;
+        }
+
+        .debt-row-chevron {
+            color: rgba(124, 58, 237, .72);
+            font-size: 1.1rem;
+        }
+
         .credit-card {
             border: 1px solid rgba(255, 159, 143, 0.32);
             border-radius: 8px;
@@ -832,11 +952,11 @@ def money_field_initial(value: float) -> str:
     return "" if float(value or 0) == 0 else money(value)
 
 
-def money_input(label: str, settings: dict, key: str) -> float:
+def money_input(label: str, settings: dict, key: str, label_visibility: str = "visible") -> float:
     input_key = f"money_input_{key}"
     if input_key not in st.session_state:
         st.session_state[input_key] = money_field_initial(settings.get(key, 0.0))
-    entered = st.text_input(label, key=input_key, placeholder="$0.00", on_change=normalize_money_state, args=(input_key,))
+    entered = st.text_input(label, key=input_key, placeholder="$0.00", on_change=normalize_money_state, args=(input_key,), label_visibility=label_visibility)
     parsed = parse_money(entered)
     settings[key] = parsed
     return parsed
@@ -847,6 +967,19 @@ def money_text_input(label: str, value: float, key: str) -> float:
         st.session_state[key] = money_field_initial(value)
     entered = st.text_input(label, key=key, placeholder="$0.00", on_change=normalize_money_state, args=(key,))
     return parse_money(entered)
+
+
+def field_card_header(icon: str, color: str, label: str) -> None:
+    st.markdown(
+        f"""
+        <div class="field-card-marker"></div>
+        <div class="field-card-head">
+            <span class="field-card-icon {html.escape(color)}">{html.escape(icon)}</span>
+            <span class="field-card-label">{html.escape(label)}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
 
 
 def card_number(row: pd.Series, column: str) -> float:
@@ -1113,14 +1246,45 @@ def render_debt_snapshot(debts: pd.DataFrame) -> None:
         return
     rows = []
     for index, debt in debts.reset_index(drop=True).iterrows():
+        meta = "Top priority" if index == 0 else ("Included" if bool(debt.get("Include", True)) else "Paused")
         rows.append(
-            {
-                "title": str(debt.get("Name", "")),
-                "meta": "Top priority" if index == 0 else ("Included" if bool(debt.get("Include", True)) else "Paused"),
-                "amount": parse_money(str(debt.get("Amount", 0.0))),
-            }
+            textwrap.dedent(
+                f"""
+                <div class="debt-row-card">
+                    <span class="mini-card-icon pink">♡</span>
+                    <div>
+                        <div class="debt-row-name">{html.escape(str(debt.get("Name", "")))}</div>
+                        <div class="debt-row-meta">{html.escape(meta)}</div>
+                    </div>
+                    <div class="debt-row-amount">{money(parse_money(str(debt.get("Amount", 0.0))))}</div>
+                    <div class="debt-row-chevron">›</div>
+                </div>
+                """
+            ).strip()
         )
-    render_payment_rows(rows)
+    st.markdown("".join(rows), unsafe_allow_html=True)
+
+
+def render_debt_totals(total_debt: float, active_debt: float) -> None:
+    cards = [
+        ("Total personal debt", money(total_debt), "$", "purple"),
+        ("Active priority amount", money(active_debt), "☆", "yellow"),
+    ]
+    html_cards = "".join(
+        textwrap.dedent(
+            f"""
+            <div class="mini-card">
+                <span class="mini-card-icon {html.escape(color)}">{html.escape(icon)}</span>
+                <div>
+                    <div class="mini-card-label">{html.escape(label)}</div>
+                    <div class="mini-card-value">{html.escape(value)}</div>
+                </div>
+            </div>
+            """
+        ).strip()
+        for label, value, icon, color in cards
+    )
+    st.markdown(f'<div class="debt-total-grid">{html_cards}</div>', unsafe_allow_html=True)
 
 
 def load_data() -> dict:
@@ -1366,18 +1530,32 @@ def settings_panel() -> dict:
     st.subheader("Today's Paycheck")
     col1, col2, col3 = st.columns(3)
     with col1:
-        settings["pay_date"] = st.date_input("Pay date", value=date.fromisoformat(settings["pay_date"])).isoformat()
-        money_input("Cash available today", settings, "cash_now")
-        money_input("Reserve I won't touch", settings, "reserve")
+        with st.container():
+            field_card_header("▣", "purple", "Pay date")
+            settings["pay_date"] = st.date_input("Pay date", value=date.fromisoformat(settings["pay_date"]), label_visibility="collapsed").isoformat()
+        with st.container():
+            field_card_header("$", "blue", "Cash available today")
+            money_input("Cash available today", settings, "cash_now", label_visibility="collapsed")
+        with st.container():
+            field_card_header("▤", "orange", "Reserve I won't touch")
+            money_input("Reserve I won't touch", settings, "reserve", label_visibility="collapsed")
     with col2:
-        money_input("Planned groceries", settings, "groceries")
-        money_input("Available in SoFi", settings, "sofi")
+        with st.container():
+            field_card_header("▾", "pink", "Planned groceries")
+            money_input("Planned groceries", settings, "groceries", label_visibility="collapsed")
+        with st.container():
+            field_card_header("⌂", "teal", "Available in SoFi")
+            money_input("Available in SoFi", settings, "sofi", label_visibility="collapsed")
     with col3:
-        settings["debts_first"] = st.toggle("If there's extra, personal debts first", value=bool(settings.get("debts_first", settings.get("mom_first", True))))
-        strategy_options = ["Highest APR", "Lowest balance"]
-        current_strategy = "Lowest balance" if settings.get("strategy") in ("Lowest balance", "Saldo mas bajo") else "Highest APR"
-        settings["strategy"] = st.selectbox("Extra-to-cards strategy", strategy_options, index=strategy_options.index(current_strategy))
-        if st.button("Save changes", type="primary", use_container_width=True):
+        with st.container():
+            field_card_header("●", "purple", "If there's extra, personal debts first")
+            settings["debts_first"] = st.toggle("If there's extra, personal debts first", value=bool(settings.get("debts_first", settings.get("mom_first", True))), label_visibility="collapsed")
+        with st.container():
+            field_card_header("↗", "purple", "Extra-to-cards strategy")
+            strategy_options = ["Highest APR", "Lowest balance"]
+            current_strategy = "Lowest balance" if settings.get("strategy") in ("Lowest balance", "Saldo mas bajo") else "Highest APR"
+            settings["strategy"] = st.selectbox("Extra-to-cards strategy", strategy_options, index=strategy_options.index(current_strategy), label_visibility="collapsed")
+        if st.button("+ Save changes", type="primary", use_container_width=True):
             save_data(st.session_state.data)
             st.success("Saved.")
     return settings
@@ -1456,9 +1634,7 @@ def main() -> None:
         debts_current = personal_debts_df()
         total_debt = float(pd.to_numeric(debts_current["Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
         active_debt = float(pd.to_numeric(debts_current.loc[debts_current["Include"].fillna(True).astype(bool), "Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
-        d1, d2 = st.columns(2)
-        d1.metric("Total personal debt", money(total_debt))
-        d2.metric("Active priority amount", money(active_debt))
+        render_debt_totals(total_debt, active_debt)
         render_debt_snapshot(debts_current)
 
         if st.button("Add personal debt", use_container_width=True):
