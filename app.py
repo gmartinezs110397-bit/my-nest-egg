@@ -223,6 +223,78 @@ def inject_girlie_theme() -> None:
             margin-bottom: .25rem;
         }
 
+        .section-title {
+            display: inline-flex;
+            align-items: center;
+            gap: .45rem;
+            color: #3f2b58;
+            font-family: var(--font-display);
+            font-size: clamp(1.35rem, 2.5vw, 1.72rem);
+            font-weight: 800;
+            margin: .1rem 0 .8rem;
+            line-height: 1;
+        }
+
+        .section-title .doodle {
+            color: #ff3cac;
+            font-family: var(--font-script);
+            font-size: 1.05em;
+            font-weight: 400;
+            text-shadow: 0 0 14px rgba(255, 60, 172, .22);
+        }
+
+        .section-title .underline {
+            border-bottom: 2px solid rgba(124, 58, 237, .36);
+            padding-bottom: .08rem;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.section-shell-marker) {
+            position: relative;
+            padding: 1rem 1rem 1.05rem;
+            border: 1px solid rgba(255, 204, 222, .58);
+            border-radius: 18px;
+            background: rgba(255, 255, 255, .72);
+            box-shadow: 0 16px 42px rgba(63, 43, 88, .07);
+            overflow: visible;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.paycheck-shell)::after {
+            content: "♡";
+            position: absolute;
+            right: 1rem;
+            top: 2.25rem;
+            width: 1.5rem;
+            height: 1.5rem;
+            border-radius: 50%;
+            display: grid;
+            place-items: center;
+            color: #ff3cac;
+            background: rgba(255, 232, 117, .35);
+            box-shadow: 0 0 14px rgba(255, 60, 172, .2);
+            font-family: var(--font-script);
+            pointer-events: none;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.debt-shell)::before {
+            content: "✣";
+            position: absolute;
+            left: -.65rem;
+            top: 4.8rem;
+            color: rgba(255, 60, 172, .35);
+            font-size: 1.6rem;
+            pointer-events: none;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.debt-shell)::after {
+            content: "✣";
+            position: absolute;
+            right: -.55rem;
+            top: 7.3rem;
+            color: rgba(255, 60, 172, .28);
+            font-size: 1.2rem;
+            pointer-events: none;
+        }
+
         .field-card-icon,
         .mini-card-icon {
             display: inline-flex;
@@ -982,6 +1054,19 @@ def field_card_header(icon: str, color: str, label: str) -> None:
     )
 
 
+def section_title(label: str, left: str = "✧", right: str = "♡") -> None:
+    st.markdown(
+        f"""
+        <div class="section-title">
+            <span class="doodle">{html.escape(left)}</span>
+            <span class="underline">{html.escape(label)}</span>
+            <span class="doodle">{html.escape(right)}</span>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def card_number(row: pd.Series, column: str) -> float:
     return float(pd.to_numeric(pd.Series([row.get(column, 0.0)]), errors="coerce").fillna(0.0).iloc[0])
 
@@ -1527,37 +1612,39 @@ def save_tables(cards: pd.DataFrame, expenses: pd.DataFrame) -> None:
 
 def settings_panel() -> dict:
     settings = st.session_state.data["settings"]
-    st.subheader("Today's Paycheck")
-    col1, col2, col3 = st.columns(3)
-    with col1:
-        with st.container():
-            field_card_header("▣", "purple", "Pay date")
-            settings["pay_date"] = st.date_input("Pay date", value=date.fromisoformat(settings["pay_date"]), label_visibility="collapsed").isoformat()
-        with st.container():
-            field_card_header("$", "blue", "Cash available today")
-            money_input("Cash available today", settings, "cash_now", label_visibility="collapsed")
-        with st.container():
-            field_card_header("▤", "orange", "Reserve I won't touch")
-            money_input("Reserve I won't touch", settings, "reserve", label_visibility="collapsed")
-    with col2:
-        with st.container():
-            field_card_header("▾", "pink", "Planned groceries")
-            money_input("Planned groceries", settings, "groceries", label_visibility="collapsed")
-        with st.container():
-            field_card_header("⌂", "teal", "Available in SoFi")
-            money_input("Available in SoFi", settings, "sofi", label_visibility="collapsed")
-    with col3:
-        with st.container():
-            field_card_header("●", "purple", "If there's extra, personal debts first")
-            settings["debts_first"] = st.toggle("If there's extra, personal debts first", value=bool(settings.get("debts_first", settings.get("mom_first", True))), label_visibility="collapsed")
-        with st.container():
-            field_card_header("↗", "purple", "Extra-to-cards strategy")
-            strategy_options = ["Highest APR", "Lowest balance"]
-            current_strategy = "Lowest balance" if settings.get("strategy") in ("Lowest balance", "Saldo mas bajo") else "Highest APR"
-            settings["strategy"] = st.selectbox("Extra-to-cards strategy", strategy_options, index=strategy_options.index(current_strategy), label_visibility="collapsed")
-        if st.button("+ Save changes", type="primary", use_container_width=True):
-            save_data(st.session_state.data)
-            st.success("Saved.")
+    with st.container():
+        st.markdown('<div class="section-shell-marker paycheck-shell"></div>', unsafe_allow_html=True)
+        section_title("Today's Paycheck", "✧", "✦")
+        col1, col2, col3 = st.columns(3)
+        with col1:
+            with st.container():
+                field_card_header("▣", "purple", "Pay date")
+                settings["pay_date"] = st.date_input("Pay date", value=date.fromisoformat(settings["pay_date"]), label_visibility="collapsed").isoformat()
+            with st.container():
+                field_card_header("$", "blue", "Cash available today")
+                money_input("Cash available today", settings, "cash_now", label_visibility="collapsed")
+            with st.container():
+                field_card_header("▤", "orange", "Reserve I won't touch")
+                money_input("Reserve I won't touch", settings, "reserve", label_visibility="collapsed")
+        with col2:
+            with st.container():
+                field_card_header("▾", "pink", "Planned groceries")
+                money_input("Planned groceries", settings, "groceries", label_visibility="collapsed")
+            with st.container():
+                field_card_header("⌂", "teal", "Available in SoFi")
+                money_input("Available in SoFi", settings, "sofi", label_visibility="collapsed")
+        with col3:
+            with st.container():
+                field_card_header("●", "purple", "If there's extra, personal debts first")
+                settings["debts_first"] = st.toggle("If there's extra, personal debts first", value=bool(settings.get("debts_first", settings.get("mom_first", True))), label_visibility="collapsed")
+            with st.container():
+                field_card_header("↗", "purple", "Extra-to-cards strategy")
+                strategy_options = ["Highest APR", "Lowest balance"]
+                current_strategy = "Lowest balance" if settings.get("strategy") in ("Lowest balance", "Saldo mas bajo") else "Highest APR"
+                settings["strategy"] = st.selectbox("Extra-to-cards strategy", strategy_options, index=strategy_options.index(current_strategy), label_visibility="collapsed")
+            if st.button("+ Save changes", type="primary", use_container_width=True):
+                save_data(st.session_state.data)
+                st.success("Saved.")
     return settings
 
 
@@ -1627,26 +1714,28 @@ def main() -> None:
 
     settings = settings_panel()
 
-    tab_plan, tab_history_data = st.tabs(["Plan", "History & Data"])
+    tab_plan, tab_history_data = st.tabs(["✧ Plan", "▥ History & Data"])
 
     with tab_plan:
-        st.subheader("Personal Debts")
-        debts_current = personal_debts_df()
-        total_debt = float(pd.to_numeric(debts_current["Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
-        active_debt = float(pd.to_numeric(debts_current.loc[debts_current["Include"].fillna(True).astype(bool), "Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
-        render_debt_totals(total_debt, active_debt)
-        render_debt_snapshot(debts_current)
+        with st.container():
+            st.markdown('<div class="section-shell-marker debt-shell"></div>', unsafe_allow_html=True)
+            section_title("Personal Debts", "✧", "♡")
+            debts_current = personal_debts_df()
+            total_debt = float(pd.to_numeric(debts_current["Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
+            active_debt = float(pd.to_numeric(debts_current.loc[debts_current["Include"].fillna(True).astype(bool), "Amount"], errors="coerce").fillna(0.0).sum()) if not debts_current.empty else 0.0
+            render_debt_totals(total_debt, active_debt)
+            render_debt_snapshot(debts_current)
 
-        if st.button("Add personal debt", use_container_width=True):
-            st.session_state.data["personal_debts"].append({"Name": "New debt", "Amount": 0.0, "Priority": len(debts_current) + 1, "Include": True, "Notes": ""})
-            save_data(st.session_state.data)
-            st.rerun()
+            if st.button("Add personal debt", use_container_width=True):
+                st.session_state.data["personal_debts"].append({"Name": "New debt", "Amount": 0.0, "Priority": len(debts_current) + 1, "Include": True, "Notes": ""})
+                save_data(st.session_state.data)
+                st.rerun()
 
-        with st.expander("Edit personal debts", expanded=False):
-            debts = render_debts_editor(debts_current)
-            if st.button("Save debts", type="primary"):
-                save_personal_debts(debts)
-                st.success("Debts saved.")
+            with st.expander("Edit personal debts", expanded=False):
+                debts = render_debts_editor(debts_current)
+                if st.button("Save debts", type="primary"):
+                    save_personal_debts(debts)
+                    st.success("Debts saved.")
 
         st.divider()
         st.subheader("Credit Cards")
