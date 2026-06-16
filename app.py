@@ -172,9 +172,10 @@ def inject_girlie_theme() -> None:
         .stApp:has(.girlie-login) {
             min-height: 100vh;
             background:
-                radial-gradient(circle at 12% 12%, rgba(255, 60, 172, .08), transparent 26%),
-                radial-gradient(circle at 88% 16%, rgba(199, 164, 255, .12), transparent 28%),
-                radial-gradient(circle at 52% 88%, rgba(255, 232, 117, .10), transparent 30%),
+                radial-gradient(circle at 50% 20%, rgba(255, 255, 255, .96), transparent 26%),
+                radial-gradient(circle at 14% 18%, rgba(255, 224, 188, .23), transparent 32%),
+                radial-gradient(circle at 86% 70%, rgba(255, 204, 222, .18), transparent 30%),
+                radial-gradient(circle at 48% 92%, rgba(199, 164, 255, .11), transparent 30%),
                 #ffffff;
             background-size: cover;
             background-position: center center;
@@ -685,70 +686,167 @@ def inject_girlie_theme() -> None:
 
         .girlie-login {
             position: relative;
-            width: min(760px, 94vw);
-            min-height: 198px;
-            margin: 1.2rem auto .35rem;
+            width: min(840px, 94vw);
+            min-height: 255px;
+            margin: .2rem auto .15rem;
             text-align: center;
-            padding: 1.25rem 1.2rem .1rem;
+            padding: .35rem 1.2rem .1rem;
             overflow: visible;
         }
 
         .girlie-login::before {
-            display: none;
+            content: "";
+            position: fixed;
+            inset: 0;
+            z-index: 0;
+            pointer-events: none;
+            background:
+                linear-gradient(110deg, rgba(83, 65, 109, .16), transparent 22%) left top / 32rem 100% no-repeat,
+                radial-gradient(ellipse at 4% 8%, rgba(71, 54, 94, .18), transparent 28%),
+                radial-gradient(ellipse at 93% 83%, rgba(255, 171, 196, .26), transparent 24%),
+                radial-gradient(ellipse at 82% 84%, rgba(126, 98, 154, .12), transparent 22%);
+            filter: blur(2px);
+            opacity: .62;
         }
 
         .girlie-login::after {
-            content: "✧";
+            content: "";
             position: absolute;
-            right: 12%;
-            top: 28%;
-            color: rgba(255, 60, 172, .54);
-            font-size: 1.25rem;
-            text-shadow: 0 0 18px rgba(255, 60, 172, .18);
-            animation: sparkle 3.8s ease-in-out infinite;
+            right: -9vw;
+            bottom: -19rem;
+            width: 17rem;
+            height: 20rem;
+            border-radius: 46% 54% 0 0;
+            background:
+                radial-gradient(circle at 45% 24%, rgba(255, 255, 255, .82) 0 .55rem, transparent .58rem),
+                radial-gradient(circle at 57% 31%, rgba(255, 182, 202, .82) 0 .5rem, transparent .53rem),
+                radial-gradient(circle at 39% 40%, rgba(255, 226, 234, .86) 0 .52rem, transparent .55rem),
+                linear-gradient(78deg, transparent 48%, rgba(173, 130, 102, .26) 49%, transparent 51%),
+                radial-gradient(ellipse at 50% 20%, rgba(255, 220, 230, .44), transparent 38%);
+            opacity: .42;
+            filter: blur(.2px);
             pointer-events: none;
         }
 
         .hello-lockup {
             position: relative;
             z-index: 1;
-            margin: .05rem auto 1rem;
+            margin: .05rem auto .82rem;
             color: #22172f;
+        }
+
+        .login-monogram {
+            position: relative;
+            z-index: 2;
+            color: #f49aad;
+            font-family: "Fraunces", Georgia, serif;
+            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-weight: 650;
+            line-height: .8;
+            margin-bottom: .42rem;
+            text-shadow: 0 8px 22px rgba(255, 155, 180, .16);
+        }
+
+        .login-monogram span {
+            color: #f6a6bd;
+            font-family: var(--font-script);
+            font-size: .56em;
+            font-weight: 400;
+            margin-left: .12rem;
         }
 
         .hello-line {
             display: block;
             letter-spacing: 0;
-            text-shadow: 0 10px 26px rgba(63, 43, 88, .08);
+            text-shadow: 0 12px 28px rgba(63, 43, 88, .10);
         }
 
         .hello-serif {
             display: inline-flex;
             align-items: center;
             gap: .32rem;
-            color: #201528;
+            color: #29242b;
             font-family: "Fraunces", Georgia, serif;
-            font-size: clamp(2.9rem, 7.2vw, 4.55rem);
+            font-size: clamp(4.3rem, 10vw, 6.4rem);
             font-weight: 650;
-            line-height: .88;
+            line-height: .76;
         }
 
         .hello-heart {
-            color: #ff3cac;
+            color: #f29db0;
             font-family: var(--font-script);
-            font-size: .68em;
+            font-size: .52em;
             font-weight: 400;
-            text-shadow: 0 0 15px rgba(255, 60, 172, .24);
+            text-shadow: 0 0 15px rgba(255, 151, 177, .22);
         }
 
         .hello-script {
             display: block;
-            margin-top: .16rem;
-            color: #a21caf;
-            font-family: "Arima", "Fraunces", Georgia, serif;
-            font-size: clamp(2.35rem, 6.2vw, 3.55rem);
-            font-weight: 700;
-            line-height: .86;
+            margin-top: -.1rem;
+            color: #f191a8;
+            font-family: "Fraunces", Georgia, serif;
+            font-style: italic;
+            font-size: clamp(3.4rem, 8.4vw, 5.4rem);
+            font-weight: 750;
+            line-height: .78;
+        }
+
+        .login-tagline {
+            position: relative;
+            z-index: 2;
+            display: inline-flex;
+            align-items: center;
+            gap: .75rem;
+            color: #2f2932;
+            font-family: var(--font-ui);
+            font-size: clamp(.82rem, 1.8vw, 1.02rem);
+            font-weight: 500;
+            letter-spacing: .34em;
+            text-transform: uppercase;
+            margin: .28rem auto .78rem;
+        }
+
+        .login-tagline::before,
+        .login-tagline::after {
+            content: "";
+            display: block;
+            width: 4.4rem;
+            height: 1px;
+            background: rgba(242, 157, 176, .48);
+        }
+
+        .login-sparkle {
+            position: absolute;
+            z-index: 1;
+            color: #f49aad;
+            font-family: var(--font-ui);
+            font-size: 1.6rem;
+            line-height: 1;
+            animation: sparkle 4.2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        .login-sparkle.one { left: 16%; top: 43%; }
+        .login-sparkle.two { right: 18%; top: 38%; color: #c9a2e8; animation-delay: 1.2s; }
+        .login-sparkle.three { left: 24%; top: 71%; font-size: 1.1rem; color: #c9a2e8; animation-delay: 2.1s; }
+        .login-sparkle.four { right: 12%; top: 74%; font-size: 1.9rem; animation-delay: 2.8s; }
+
+        .login-footer-note {
+            position: relative;
+            z-index: 2;
+            color: #f191a8;
+            font-family: var(--font-script);
+            font-size: clamp(1.45rem, 3vw, 2rem);
+            line-height: 1;
+            margin: .52rem auto .05rem;
+            text-shadow: 0 8px 20px rgba(255, 151, 177, .16);
+        }
+
+        .login-footer-heart {
+            color: #cda1ef;
+            font-family: var(--font-script);
+            font-size: 1.2rem;
+            line-height: 1;
         }
 
         .wallpaper-flower {
@@ -858,55 +956,68 @@ def inject_girlie_theme() -> None:
             align-items: center;
             justify-content: center;
             gap: .85rem;
-            margin: .28rem auto .65rem;
+            margin: -.12rem auto .6rem;
             min-height: 1.6rem;
         }
 
         .passcode-dot {
-            width: .96rem;
-            height: .96rem;
+            width: 1.02rem;
+            height: 1.02rem;
             border-radius: 50%;
-            border: 2px solid rgba(63, 43, 88, .30);
+            border: 2px solid rgba(201, 162, 232, .84);
             background: rgba(255, 255, 255, .72);
-            box-shadow: 0 5px 16px rgba(255, 60, 172, .10);
+            box-shadow: 0 5px 16px rgba(242, 157, 176, .08);
         }
 
         .passcode-dot.filled {
-            border-color: #ff3cac;
-            background: #ff3cac;
-            box-shadow: 0 0 18px rgba(255, 60, 172, .34);
+            border-color: #f49aad;
+            background: #f49aad;
+            box-shadow: 0 0 18px rgba(244, 154, 173, .30);
         }
 
         .passcode-grid-marker {
             position: relative;
+            z-index: 4;
             width: min(460px, 92vw);
             height: 0;
             margin: 0 auto .15rem;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) {
+            position: relative;
+            z-index: 4;
+        }
+
+        .login-footer-note,
+        .login-footer-heart {
+            position: relative;
+            z-index: 4;
+            text-align: center;
         }
 
         .passcode-grid-marker::before {
             content: "";
             position: absolute;
             left: 50%;
-            top: -.55rem;
+            top: -.28rem;
             transform: translateX(-50%);
-            width: min(500px, 92vw);
-            height: 22.8rem;
-            border: 1px solid rgba(255, 204, 222, .70);
-            border-radius: 28px;
-            background: rgba(255, 255, 255, .72);
-            backdrop-filter: blur(18px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.86), 0 24px 60px rgba(63, 43, 88, .08);
+            width: min(370px, 86vw);
+            height: 20.8rem;
+            border: 0;
+            border-radius: 999px;
+            background: radial-gradient(ellipse at center, rgba(255, 222, 234, .30), transparent 64%);
+            backdrop-filter: blur(2px);
+            box-shadow: none;
             pointer-events: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-            width: min(360px, 84vw);
+            width: min(330px, 82vw);
             margin-left: auto;
             margin-right: auto;
             display: flex !important;
             flex-direction: row !important;
-            gap: 1.18rem !important;
+            gap: 1.05rem !important;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stColumn"] {
@@ -916,25 +1027,31 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-            width: 4.05rem;
-            height: 4.05rem;
-            min-height: 4.05rem;
-            margin: .18rem auto;
+            width: 4.25rem;
+            height: 4.25rem;
+            min-height: 4.25rem;
+            margin: .08rem auto;
             border-radius: 50%;
-            border: 1px solid rgba(255, 204, 222, .72);
-            background: rgba(255, 255, 255, .84);
-            backdrop-filter: blur(14px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.88), 0 10px 24px rgba(63, 43, 88, .08);
-            color: #4b3a68;
-            font-size: 1.48rem;
+            border: 1px solid rgba(255, 255, 255, .78);
+            background: rgba(255, 255, 255, .86);
+            backdrop-filter: blur(18px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.96), 0 13px 31px rgba(63, 43, 88, .11), 0 0 0 1px rgba(244, 154, 173, .22);
+            color: #1f1b24 !important;
+            font-size: 1.52rem;
             font-family: var(--font-ui);
-            font-weight: 600;
+            font-weight: 700;
+            text-shadow: none;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
+            color: #1f1b24 !important;
+            font-weight: 700;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
-            border-color: rgba(255, 60, 172, .48);
+            border-color: rgba(244, 154, 173, .52);
             color: #201528;
-            box-shadow: 0 0 0 1px rgba(255,255,255,.66), 0 0 24px rgba(255, 60, 172, .16);
+            box-shadow: 0 0 0 1px rgba(255,255,255,.66), 0 0 24px rgba(244, 154, 173, .16);
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
@@ -1161,16 +1278,16 @@ def render_login_hero() -> None:
     st.markdown(
         f"""
         <div class="girlie-login">
-            <div class="wallpaper-flower one"><span></span><span></span><span></span><span></span><span></span><b></b></div>
-            <div class="wallpaper-flower two"><span></span><span></span><span></span><span></span><span></span><b></b></div>
-            <div class="wallpaper-flower three"><span></span><span></span><span></span><span></span><span></span><b></b></div>
-            <div class="wallpaper-flower four"><span></span><span></span><span></span><span></span><span></span><b></b></div>
-            <div class="wallpaper-flower five"><span></span><span></span><span></span><span></span><span></span><b></b></div>
-            <div class="wallpaper-flower six"><span></span><span></span><span></span><span></span><span></span><b></b></div>
+            <div class="login-sparkle one">✧</div>
+            <div class="login-sparkle two">✧</div>
+            <div class="login-sparkle three">✧</div>
+            <div class="login-sparkle four">✧</div>
+            <div class="login-monogram">GM<span>♡</span></div>
             <div class="hello-lockup">
-                <span class="hello-line hello-serif">Hello,<span class="hello-heart">♡</span></span>
-                <span class="hello-line hello-script">baby girl</span>
+                <span class="hello-line hello-serif">Hello,</span>
+                <span class="hello-line hello-script">baby girl<span class="hello-heart">♡</span></span>
             </div>
+            <div class="login-tagline">Small habits, big results</div>
             <div class="passcode-dots">{dots}</div>
         </div>
         """,
@@ -1674,7 +1791,9 @@ def require_password() -> None:
         cols = st.columns(3)
         cols[0].button("Del", key="passcode_backspace", use_container_width=True, on_click=backspace)
         cols[1].button("0", key="passcode_0", use_container_width=True, on_click=add_digit, args=("0",))
-        cols[2].button("Clear", key="passcode_clear", use_container_width=True, on_click=clear_passcode)
+        cols[2].button("⌫", key="passcode_clear", use_container_width=True, on_click=clear_passcode)
+
+    st.markdown('<div class="login-footer-note">Just one more day.</div><div class="login-footer-heart">♥</div>', unsafe_allow_html=True)
 
     if st.session_state.get("authenticated"):
         st.rerun()
