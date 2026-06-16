@@ -21,6 +21,7 @@ APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
 FAVICON_FILE = APP_DIR / "assets" / "favicon.png"
 LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
 LOGIN_COVER_FILE = APP_DIR / "assets" / "login-cover-reference.jpg"
+LOGIN_COVER_MOBILE_FILE = APP_DIR / "assets" / "login-cover-mobile.jpg"
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 WEEKDAY_ABBR = ["M", "T", "W", "T", "F", "S", "S"]
@@ -204,12 +205,14 @@ def inject_app_icon_links() -> None:
 def inject_girlie_theme() -> None:
     login_bg = image_data_uri(LOGIN_BG_FILE)
     login_cover = image_data_uri(LOGIN_COVER_FILE)
+    login_cover_mobile = image_data_uri(LOGIN_COVER_MOBILE_FILE)
     st.markdown(
         """
         <style>
         :root {
             --login-bg: url('__LOGIN_BG__');
             --login-cover: url('__LOGIN_COVER__');
+            --login-cover-mobile: url('__LOGIN_COVER_MOBILE__');
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,650;0,9..144,750;1,9..144,650;1,9..144,750&family=Fugaz+One&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -1649,28 +1652,80 @@ def inject_girlie_theme() -> None:
             }
 
             .stApp:has(.girlie-login) {
-                background-size: auto 86%;
+                background-image: var(--login-cover-mobile);
+                background-size: 100% 100%;
                 background-position: center top;
             }
 
             .girlie-login {
-                min-height: min(39.5vh, 21.5rem);
+                min-height: 33vh;
             }
 
             .passcode-dots {
-                top: min(32.4vh, 17.8rem);
-                gap: 2.8rem;
+                top: 31.4vh;
+                gap: 2.72rem;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-                width: min(340px, 94vw);
-                gap: .82rem !important;
+                width: min(335px, 92vw);
+                gap: .70rem !important;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-                width: clamp(3.85rem, 18vw, 4.45rem);
-                height: clamp(3.85rem, 18vw, 4.45rem);
-                min-height: clamp(3.85rem, 18vw, 4.45rem);
+                width: clamp(3.65rem, 16vw, 4.15rem);
+                height: clamp(3.65rem, 16vw, 4.15rem);
+                min-height: clamp(3.65rem, 16vw, 4.15rem);
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 !important;
+                border: 1px solid rgba(255, 255, 255, .82) !important;
+                background: rgba(255, 255, 255, .54) !important;
+                color: #57505a !important;
+                font-size: 1.22rem;
+                font-weight: 600;
+                line-height: 1;
+                backdrop-filter: blur(12px);
+                box-shadow: 0 14px 34px rgba(219, 160, 190, .16), inset 0 1px 0 rgba(255,255,255,.85) !important;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
+                color: #57505a !important;
+                margin: 0;
+                line-height: 1;
+                font-size: inherit;
+                font-weight: inherit;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
+                background: rgba(255, 255, 255, .68) !important;
+                color: #4b4350 !important;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
+                font-size: 1.02rem;
+                font-weight: 600;
+            }
+
+            .login-footer-note,
+            .login-footer-heart {
+                display: block;
+                font-family: var(--font-display);
+                font-style: italic;
+                color: #f29ab0;
+                text-align: center;
+            }
+
+            .login-footer-note {
+                margin-top: .2rem;
+                font-size: 1.22rem;
+            }
+
+            .login-footer-heart {
+                color: #cda3e8;
+                font-size: 1.05rem;
+                line-height: 1.1;
             }
         }
 
@@ -1700,7 +1755,7 @@ def inject_girlie_theme() -> None:
             50% { opacity: 1; transform: scale(1.2) rotate(14deg); }
         }
         </style>
-        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover),
+        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover).replace("__LOGIN_COVER_MOBILE__", login_cover_mobile),
         unsafe_allow_html=True,
     )
 
