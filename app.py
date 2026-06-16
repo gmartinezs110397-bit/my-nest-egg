@@ -692,12 +692,12 @@ def inject_girlie_theme() -> None:
 
         .hello-script {
             display: block;
-            margin-top: .05rem;
-            color: #c026d3;
-            font-family: var(--font-script);
-            font-size: clamp(2.8rem, 7.5vw, 4.35rem);
-            font-weight: 400;
-            line-height: .78;
+            margin-top: .16rem;
+            color: #a21caf;
+            font-family: "Arima", "Fraunces", Georgia, serif;
+            font-size: clamp(2.35rem, 6.2vw, 3.55rem);
+            font-weight: 700;
+            line-height: .86;
         }
 
         .wallpaper-flower {
