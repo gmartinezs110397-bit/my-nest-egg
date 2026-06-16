@@ -1716,6 +1716,7 @@ def inject_girlie_theme() -> None:
             }
 
             .passcode-dots {
+                left: calc(50% + 17px);
                 top: 28.8vh;
                 gap: 2.48rem;
             }
@@ -1731,6 +1732,7 @@ def inject_girlie_theme() -> None:
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
                 width: min(304px, 82vw);
                 gap: .50rem !important;
+                transform: translateX(17px);
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
