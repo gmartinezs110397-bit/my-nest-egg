@@ -22,6 +22,7 @@ FAVICON_FILE = APP_DIR / "assets" / "favicon.png"
 LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
 LOGIN_COVER_FILE = APP_DIR / "assets" / "login-cover-reference.jpg"
 LOGIN_COVER_MOBILE_FILE = APP_DIR / "assets" / "login-cover-mobile.jpg"
+LOGIN_COVER_IPAD_FILE = APP_DIR / "assets" / "login-cover-ipad.jpg"
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 WEEKDAY_ABBR = ["M", "T", "W", "T", "F", "S", "S"]
@@ -206,6 +207,7 @@ def inject_girlie_theme() -> None:
     login_bg = image_data_uri(LOGIN_BG_FILE)
     login_cover = image_data_uri(LOGIN_COVER_FILE)
     login_cover_mobile = image_data_uri(LOGIN_COVER_MOBILE_FILE)
+    login_cover_ipad = image_data_uri(LOGIN_COVER_IPAD_FILE)
     st.markdown(
         """
         <style>
@@ -213,6 +215,7 @@ def inject_girlie_theme() -> None:
             --login-bg: url('__LOGIN_BG__');
             --login-cover: url('__LOGIN_COVER__');
             --login-cover-mobile: url('__LOGIN_COVER_MOBILE__');
+            --login-cover-ipad: url('__LOGIN_COVER_IPAD__');
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,650;0,9..144,750;1,9..144,650;1,9..144,750&family=Fugaz+One&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -1803,8 +1806,8 @@ def inject_girlie_theme() -> None:
 
         @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
             .stApp:has(.girlie-login) {
-                background-image: var(--login-cover-mobile);
-                background-size: auto 100%;
+                background-image: var(--login-cover-ipad);
+                background-size: contain;
                 background-position: center top;
                 background-repeat: no-repeat;
             }
@@ -1918,7 +1921,7 @@ def inject_girlie_theme() -> None:
             50% { opacity: 1; transform: scale(1.2) rotate(14deg); }
         }
         </style>
-        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover).replace("__LOGIN_COVER_MOBILE__", login_cover_mobile),
+        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover).replace("__LOGIN_COVER_MOBILE__", login_cover_mobile).replace("__LOGIN_COVER_IPAD__", login_cover_ipad),
         unsafe_allow_html=True,
     )
 
