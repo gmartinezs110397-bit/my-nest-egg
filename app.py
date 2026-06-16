@@ -5,7 +5,7 @@ import html
 import json
 import textwrap
 from copy import deepcopy
-from datetime import date
+from datetime import date, timedelta
 from pathlib import Path
 
 import pandas as pd
@@ -18,6 +18,51 @@ DATA_FILE = APP_DIR / "data" / "payment_data.json"
 APP_ICON_FILE = APP_DIR / "assets" / "app-icon.png"
 APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
 LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
+
+WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+WEEKDAY_ABBR = ["M", "T", "W", "T", "F", "S", "S"]
+ROUTINE_SECTIONS = ["Morning Reset", "Workout", "Nutrition", "Self Care", "Evening Reset"]
+MANTRAS = [
+    "I do not need motivation. I need consistency.",
+    "Small habits. Big results.",
+    "Emotions do not decide my routine.",
+    "I only have to keep one more promise today.",
+    "Future me is watching, and she is proud.",
+]
+EMERGENCY_RESPONSES = {
+    "I do not want to go to the gym": "You do not have to crush the workout. You only have to show up.",
+    "I do not want to run": "Start with your shoes. Five minutes still counts as keeping the promise.",
+    "I feel anxious": "Pause. Drink water. Breathe slowly. Then choose the tiniest next step.",
+    "I want to skip my routine": "Do the 50% version. Discipline can be soft and still be real.",
+    "I feel sad": "You are allowed to feel it. One small habit is enough to protect tomorrow's Gina.",
+}
+
+DEFAULT_ROUTINE_ACTIVITIES = [
+    {"Name": "Make bed", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Ice face", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Water + creatine", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Vitamins", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "High protein breakfast", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Hypopressives", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Review day plan", "Section": "Morning Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": "2 min"},
+    {"Name": "Legs lower body", "Section": "Workout", "Days": [0, 2, 4], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Arms + cardio", "Section": "Workout", "Days": [1, 3], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Long run", "Section": "Workout", "Days": [5], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Recovery walk", "Section": "Workout", "Days": [6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Water goal", "Section": "Nutrition", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Protein goal", "Section": "Nutrition", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Hair mask", "Section": "Self Care", "Days": [0, 2, 4], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Sauna", "Section": "Self Care", "Days": [0, 2, 4], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Red light mask", "Section": "Self Care", "Days": [0, 2, 4], "Non-negotiable": False, "Notes": "PM"},
+    {"Name": "Nails", "Section": "Self Care", "Days": [6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Meal prep", "Section": "Self Care", "Days": [6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Last meal before 8:00 PM", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Magnesium", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+    {"Name": "Skincare", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Prepare gym clothes", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Read 10 pages", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": False, "Notes": ""},
+    {"Name": "Sleep early", "Section": "Evening Reset", "Days": [0, 1, 2, 3, 4, 5, 6], "Non-negotiable": True, "Notes": ""},
+]
 
 
 DEFAULT_DATA = {
@@ -56,6 +101,12 @@ DEFAULT_DATA = {
         {"Name": "Mom", "Amount": 2444342.74, "Priority": 1, "Include": True, "Notes": ""},
     ],
     "history": [],
+    "routine": {
+        "activities": DEFAULT_ROUTINE_ACTIVITIES,
+        "completions": {},
+        "future_me": {},
+        "mantra_index": 0,
+    },
 }
 
 
@@ -895,6 +946,188 @@ def inject_girlie_theme() -> None:
             font-weight: 600;
         }
 
+        .routine-hero {
+            position: relative;
+            overflow: hidden;
+            border: 1px solid rgba(255, 204, 222, .72);
+            border-radius: 20px;
+            background:
+                radial-gradient(circle at 8% 18%, rgba(255, 232, 117, .38), transparent 22%),
+                radial-gradient(circle at 84% 22%, rgba(199, 164, 255, .28), transparent 24%),
+                linear-gradient(135deg, rgba(255,255,255,.94), rgba(255, 246, 249, .86));
+            padding: 1.2rem 1.25rem;
+            box-shadow: 0 18px 44px rgba(63, 43, 88, .08);
+            margin-bottom: 1rem;
+        }
+
+        .routine-kicker {
+            color: #ff7f95;
+            font-family: var(--font-ui);
+            font-size: .75rem;
+            font-weight: 900;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+        }
+
+        .routine-title {
+            color: #2f2145;
+            font-family: var(--font-display);
+            font-size: clamp(1.8rem, 4vw, 3.2rem);
+            font-weight: 750;
+            line-height: 1;
+            margin-top: .25rem;
+        }
+
+        .routine-subtitle {
+            color: rgba(63, 43, 88, .72);
+            font-family: var(--font-script);
+            font-size: clamp(1.35rem, 3vw, 2rem);
+            line-height: 1.05;
+            margin-top: .25rem;
+        }
+
+        .routine-progress-text {
+            color: #3f2b58;
+            font-weight: 900;
+            font-size: 1.05rem;
+            margin: .9rem 0 .35rem;
+        }
+
+        .routine-meta {
+            color: rgba(63, 43, 88, .72);
+            font-size: .88rem;
+            font-weight: 650;
+        }
+
+        .routine-mini-grid,
+        .routine-week-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: .7rem;
+            margin: .55rem 0 .8rem;
+        }
+
+        .routine-mini-card,
+        .coach-card,
+        div[data-testid="stVerticalBlock"]:has(.routine-section-marker) {
+            border: 1px solid rgba(255, 204, 222, .62);
+            border-radius: 14px;
+            background: rgba(255,255,255,.78);
+            box-shadow: 0 14px 34px rgba(63, 43, 88, .06);
+        }
+
+        .routine-mini-card {
+            padding: .85rem .95rem;
+        }
+
+        .routine-mini-label {
+            color: rgba(63, 43, 88, .66);
+            font-size: .72rem;
+            font-weight: 900;
+            text-transform: uppercase;
+            letter-spacing: .05em;
+        }
+
+        .routine-mini-value {
+            color: #3f2b58;
+            font-size: 1.1rem;
+            font-weight: 900;
+            margin-top: .15rem;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.routine-section-marker) {
+            padding: .95rem 1rem;
+            min-height: 100%;
+        }
+
+        .routine-section-heading {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: .75rem;
+            margin-bottom: .45rem;
+            padding: .38rem .55rem;
+            border-radius: 8px;
+            background: linear-gradient(90deg, rgba(255, 204, 222, .56), rgba(255, 232, 117, .35), rgba(199, 164, 255, .28));
+            color: #33224c;
+            font-family: var(--font-ui);
+            font-size: .78rem;
+            font-weight: 950;
+            letter-spacing: .06em;
+            text-transform: uppercase;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.routine-section-marker) label {
+            color: #3f2b58 !important;
+            font-weight: 650;
+        }
+
+        .routine-note {
+            color: rgba(63, 43, 88, .58);
+            font-size: .76rem;
+            margin: -.3rem 0 .25rem 1.9rem;
+        }
+
+        .coach-card {
+            padding: .95rem 1rem;
+            margin-bottom: .75rem;
+        }
+
+        .coach-title {
+            color: #3f2b58;
+            font-family: var(--font-display);
+            font-size: 1.35rem;
+            font-weight: 800;
+            line-height: 1.1;
+        }
+
+        .coach-copy {
+            color: rgba(63, 43, 88, .78);
+            font-size: .95rem;
+            font-weight: 650;
+            margin-top: .35rem;
+        }
+
+        .mantra-text {
+            color: #ff5b8a;
+            font-family: var(--font-script);
+            font-size: clamp(1.35rem, 3vw, 2.1rem);
+            line-height: 1.05;
+        }
+
+        .week-row {
+            display: grid;
+            grid-template-columns: minmax(120px, 1.2fr) repeat(7, 1fr);
+            align-items: center;
+            gap: .35rem;
+            border-bottom: 1px solid rgba(255, 204, 222, .38);
+            padding: .42rem 0;
+        }
+
+        .week-name {
+            color: #3f2b58;
+            font-size: .82rem;
+            font-weight: 800;
+        }
+
+        .week-day,
+        .week-dot {
+            display: grid;
+            place-items: center;
+            min-height: 1.25rem;
+            font-size: .72rem;
+            font-weight: 900;
+        }
+
+        .week-dot span {
+            width: .62rem;
+            height: .62rem;
+            border-radius: 50%;
+            background: rgba(199, 164, 255, .30);
+        }
+
+        .week-dot.done span { background: #ff7f95; box-shadow: 0 0 0 3px rgba(255, 127, 149, .12); }
+
         @keyframes sunriseGlow {
             0%, 100% { transform: translateY(0) scale(1); opacity: .78; }
             50% { transform: translateY(10px) scale(1.04); opacity: 1; }
@@ -1381,6 +1614,11 @@ def load_data() -> dict:
             data = deepcopy(DEFAULT_DATA)
             data.update(saved)
             data["settings"] = {**DEFAULT_DATA["settings"], **saved.get("settings", {})}
+            data["routine"] = {**deepcopy(DEFAULT_DATA["routine"]), **saved.get("routine", {})}
+            data["routine"].setdefault("activities", deepcopy(DEFAULT_ROUTINE_ACTIVITIES))
+            data["routine"].setdefault("completions", {})
+            data["routine"].setdefault("future_me", {})
+            data["routine"].setdefault("mantra_index", 0)
             return data
         except Exception:
             return deepcopy(DEFAULT_DATA)
@@ -1451,6 +1689,11 @@ def init_state() -> None:
     st.session_state.data.setdefault("personal_debts", deepcopy(DEFAULT_DATA["personal_debts"]))
     st.session_state.data.setdefault("settings", deepcopy(DEFAULT_DATA["settings"]))
     st.session_state.data["settings"] = {**DEFAULT_DATA["settings"], **st.session_state.data["settings"]}
+    st.session_state.data.setdefault("routine", deepcopy(DEFAULT_DATA["routine"]))
+    st.session_state.data["routine"].setdefault("activities", deepcopy(DEFAULT_ROUTINE_ACTIVITIES))
+    st.session_state.data["routine"].setdefault("completions", {})
+    st.session_state.data["routine"].setdefault("future_me", {})
+    st.session_state.data["routine"].setdefault("mantra_index", 0)
 
 
 def cards_df() -> pd.DataFrame:
@@ -1467,6 +1710,222 @@ def expenses_df() -> pd.DataFrame:
 def personal_debts_df() -> pd.DataFrame:
     debts = st.session_state.data.get("personal_debts", DEFAULT_DATA["personal_debts"])
     return pd.DataFrame(debts, columns=list(DEFAULT_DATA["personal_debts"][0].keys()))
+
+
+def routine_data() -> dict:
+    return st.session_state.data.setdefault("routine", deepcopy(DEFAULT_DATA["routine"]))
+
+
+def routine_date_key(day: date | None = None) -> str:
+    return (day or date.today()).isoformat()
+
+
+def activity_key(activity: dict) -> str:
+    return str(activity.get("Name", "")).strip()
+
+
+def activity_days(activity: dict) -> list[int]:
+    days = activity.get("Days", [])
+    return [int(day) for day in days if str(day).isdigit()]
+
+
+def activity_due_on(activity: dict, day_index: int) -> bool:
+    return day_index in activity_days(activity)
+
+
+def scheduled_activities(day_index: int | None = None) -> list[dict]:
+    index = date.today().weekday() if day_index is None else day_index
+    return [activity for activity in routine_data().get("activities", []) if activity_due_on(activity, index)]
+
+
+def completion_for(day_key: str) -> dict:
+    completions = routine_data().setdefault("completions", {})
+    return completions.setdefault(day_key, {})
+
+
+def is_activity_done(activity: dict, day_key: str) -> bool:
+    return bool(completion_for(day_key).get(activity_key(activity), False))
+
+
+def set_activity_done(activity: dict, day_key: str, done: bool) -> None:
+    completion_for(day_key)[activity_key(activity)] = bool(done)
+
+
+def week_start(day: date | None = None) -> date:
+    current = day or date.today()
+    return current - timedelta(days=current.weekday())
+
+
+def render_routine_summary() -> None:
+    today_key = routine_date_key()
+    due_today = scheduled_activities()
+    completed = sum(1 for activity in due_today if is_activity_done(activity, today_key))
+    total = len(due_today)
+    progress = completed / total if total else 0.0
+    routine = routine_data()
+    mantra = MANTRAS[int(routine.get("mantra_index", 0)) % len(MANTRAS)]
+
+    st.markdown(
+        f"""
+        <div class="routine-hero">
+            <div class="routine-kicker">Small habits. Big results.</div>
+            <div class="routine-title">Good morning, Gina</div>
+            <div class="routine-subtitle">for my best version</div>
+            <div class="routine-progress-text">{completed} / {total} habits completed today</div>
+            <div class="routine-meta">{date.today().strftime("%A, %B %d")}</div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.progress(progress, text=f"{progress:.0%} complete")
+
+    c1, c2, c3 = st.columns(3)
+    non_negotiables = [activity for activity in due_today if bool(activity.get("Non-negotiable", False))]
+    non_done = sum(1 for activity in non_negotiables if is_activity_done(activity, today_key))
+    with c1:
+        st.markdown(
+            f'<div class="routine-mini-card"><div class="routine-mini-label">Non-negotiables</div><div class="routine-mini-value">{non_done} / {len(non_negotiables)}</div></div>',
+            unsafe_allow_html=True,
+        )
+    with c2:
+        st.markdown(
+            f'<div class="routine-mini-card"><div class="routine-mini-label">Today focus</div><div class="routine-mini-value">{WEEKDAYS[date.today().weekday()]}</div></div>',
+            unsafe_allow_html=True,
+        )
+    with c3:
+        st.markdown(
+            f'<div class="routine-mini-card"><div class="routine-mini-label">Future me</div><div class="routine-mini-value">{routine.get("future_me", {}).get(today_key, "Choose today").title()}</div></div>',
+            unsafe_allow_html=True,
+        )
+
+    mantra_left, mantra_right = st.columns([1.5, 1])
+    with mantra_left:
+        st.markdown(
+            f'<div class="coach-card"><div class="coach-title">Today&apos;s Mantra</div><div class="mantra-text">{html.escape(mantra)}</div></div>',
+            unsafe_allow_html=True,
+        )
+        if st.button("New phrase", use_container_width=True):
+            routine["mantra_index"] = int(routine.get("mantra_index", 0)) + 1
+            save_data(st.session_state.data)
+            st.rerun()
+    with mantra_right:
+        st.markdown(
+            '<div class="coach-card"><div class="coach-title">Future Me Check</div><div class="coach-copy">Is what I am doing today helping tomorrow&apos;s Gina?</div></div>',
+            unsafe_allow_html=True,
+        )
+        yes_col, no_col = st.columns(2)
+        if yes_col.button("Yes", type="primary", use_container_width=True):
+            routine.setdefault("future_me", {})[today_key] = "yes"
+            save_data(st.session_state.data)
+            st.rerun()
+        if no_col.button("Not yet", use_container_width=True):
+            routine.setdefault("future_me", {})[today_key] = "not yet"
+            save_data(st.session_state.data)
+            st.rerun()
+
+
+def render_routine_sections() -> None:
+    today_key = routine_date_key()
+    due_today = scheduled_activities()
+    changed = False
+
+    for start in range(0, len(ROUTINE_SECTIONS), 2):
+        cols = st.columns(2)
+        for offset, col in enumerate(cols):
+            section_index = start + offset
+            if section_index >= len(ROUTINE_SECTIONS):
+                continue
+            section = ROUTINE_SECTIONS[section_index]
+            activities = [activity for activity in due_today if activity.get("Section") == section]
+            with col.container():
+                st.markdown('<div class="routine-section-marker"></div>', unsafe_allow_html=True)
+                st.markdown(f'<div class="routine-section-heading"><span>{html.escape(section)}</span><span>♡</span></div>', unsafe_allow_html=True)
+                if not activities:
+                    st.caption("Nothing scheduled for today.")
+                for activity in activities:
+                    key = activity_key(activity)
+                    check_col, text_col = st.columns([.14, .86], vertical_alignment="center")
+                    checked = check_col.checkbox(
+                        key,
+                        value=is_activity_done(activity, today_key),
+                        key=f"routine_{today_key}_{section}_{key}",
+                        label_visibility="collapsed",
+                    )
+                    text_col.markdown(f"**{html.escape(key)}**")
+                    if checked != is_activity_done(activity, today_key):
+                        set_activity_done(activity, today_key, checked)
+                        changed = True
+                    note = str(activity.get("Notes", "")).strip()
+                    if note:
+                        st.markdown(f'<div class="routine-note">{html.escape(note)}</div>', unsafe_allow_html=True)
+    if changed:
+        save_data(st.session_state.data)
+        st.rerun()
+
+
+def render_add_activity() -> None:
+    with st.expander("Add routine activity", expanded=False):
+        with st.form("add_routine_activity", clear_on_submit=True):
+            name = st.text_input("Activity name", placeholder="Example: Facial mask")
+            section = st.selectbox("Section", ROUTINE_SECTIONS)
+            days = st.multiselect("Days of the week", WEEKDAYS, default=WEEKDAYS)
+            non_negotiable = st.checkbox("Non-negotiable")
+            notes = st.text_input("Notes", placeholder="Optional")
+            submitted = st.form_submit_button("Add activity", type="primary", use_container_width=True)
+            if submitted and name.strip():
+                routine_data()["activities"].append(
+                    {
+                        "Name": name.strip(),
+                        "Section": section,
+                        "Days": [WEEKDAYS.index(day) for day in days],
+                        "Non-negotiable": bool(non_negotiable),
+                        "Notes": notes.strip(),
+                    }
+                )
+                save_data(st.session_state.data)
+                st.success("Activity added.")
+                st.rerun()
+
+
+def render_emergency_mode() -> None:
+    st.markdown(
+        '<div class="coach-card"><div class="coach-title">Emergency Mode</div><div class="coach-copy">Pick the feeling. Then do the tiny version.</div></div>',
+        unsafe_allow_html=True,
+    )
+    choice = st.selectbox("What is coming up?", list(EMERGENCY_RESPONSES.keys()))
+    st.info(EMERGENCY_RESPONSES[choice])
+
+
+def render_weekly_tracker() -> None:
+    start = week_start()
+    activities = [activity for activity in routine_data().get("activities", []) if bool(activity.get("Non-negotiable", False))]
+    st.markdown("#### Weekly Dashboard")
+    header = '<div class="week-row"><div></div>' + "".join(f'<div class="week-day">{day}</div>' for day in WEEKDAY_ABBR) + "</div>"
+    rows = [header]
+    for activity in activities:
+        dots = []
+        for day_offset in range(7):
+            current_day = start + timedelta(days=day_offset)
+            if not activity_due_on(activity, day_offset):
+                dots.append('<div class="week-dot"><span style="opacity:.18"></span></div>')
+                continue
+            status = "done" if is_activity_done(activity, current_day.isoformat()) else ""
+            dots.append(f'<div class="week-dot {status}"><span></span></div>')
+        rows.append(f'<div class="week-row"><div class="week-name">{html.escape(activity_key(activity))}</div>{"".join(dots)}</div>')
+    st.markdown(f'<div class="coach-card">{"".join(rows)}</div>', unsafe_allow_html=True)
+
+
+def render_routine_dashboard() -> None:
+    render_routine_summary()
+    st.divider()
+    render_routine_sections()
+    render_add_activity()
+    st.divider()
+    coach_col, week_col = st.columns([.9, 1.35])
+    with coach_col:
+        render_emergency_mode()
+    with week_col:
+        render_weekly_tracker()
 
 
 def save_personal_debts(debts: pd.DataFrame) -> None:
@@ -1711,14 +2170,16 @@ def main() -> None:
     require_password()
     init_state()
 
-    st.title("My Nest Egg")
-    st.caption("A personal paycheck planner for deciding what to pay now.")
+    st.title("Hello, Baby Girl")
+    st.caption("Small habits, money clarity, and one more promise kept today.")
 
-    settings = settings_panel()
+    tab_routine, tab_money, tab_history_data = st.tabs(["✧ Routine", "◇ Money", "▥ History & Data"])
 
-    tab_plan, tab_history_data = st.tabs(["✧ Plan", "▥ History & Data"])
+    with tab_routine:
+        render_routine_dashboard()
 
-    with tab_plan:
+    with tab_money:
+        settings = settings_panel()
         with st.container():
             st.markdown('<div class="section-shell-marker debt-shell"></div>', unsafe_allow_html=True)
             section_title("Personal Debts", "✧", "♡")
