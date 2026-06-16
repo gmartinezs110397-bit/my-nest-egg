@@ -231,6 +231,7 @@ def inject_girlie_theme() -> None:
             --font-fugaz: "Fugaz One", "Inter", sans-serif;
             --font-script: "Fraunces", Georgia, serif;
             --font-ui: "Inter", "Segoe UI", Arial, sans-serif;
+            --font-apple: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text", "Helvetica Neue", Arial, sans-serif;
         }
 
         .stApp {
@@ -1186,13 +1187,24 @@ def inject_girlie_theme() -> None:
             box-shadow: none !important;
             color: transparent !important;
             font-size: 1.52rem;
-            font-family: var(--font-ui);
+            font-family: var(--font-apple);
             font-weight: 700;
+            letter-spacing: 0;
+            line-height: 1;
             text-shadow: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
             color: transparent !important;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+            margin: 0 !important;
+            padding: 0 !important;
+            text-align: center;
+            line-height: 1;
             font-weight: 700;
         }
 
@@ -1700,23 +1712,31 @@ def inject_girlie_theme() -> None:
             }
 
             .girlie-login {
-                min-height: 33vh;
+                min-height: 30.5vh;
             }
 
             .passcode-dots {
-                top: 31.4vh;
-                gap: 2.72rem;
+                top: 28.8vh;
+                gap: 2.48rem;
+            }
+
+            .passcode-dot {
+                width: .72rem;
+                height: .72rem;
+                border: 1.7px solid rgba(179, 151, 199, .72);
+                background: rgba(255, 255, 255, .12);
+                border-width: 1.7px;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-                width: min(335px, 92vw);
-                gap: .70rem !important;
+                width: min(304px, 82vw);
+                gap: .50rem !important;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-                width: clamp(3.65rem, 16vw, 4.15rem);
-                height: clamp(3.65rem, 16vw, 4.15rem);
-                min-height: clamp(3.65rem, 16vw, 4.15rem);
+                width: clamp(3.28rem, 14vw, 3.72rem);
+                height: clamp(3.28rem, 14vw, 3.72rem);
+                min-height: clamp(3.28rem, 14vw, 3.72rem);
                 display: inline-flex;
                 align-items: center;
                 justify-content: center;
@@ -1724,19 +1744,27 @@ def inject_girlie_theme() -> None:
                 border: 1px solid rgba(255, 255, 255, .82) !important;
                 background: rgba(255, 255, 255, .54) !important;
                 color: #57505a !important;
-                font-size: 1.22rem;
-                font-weight: 600;
+                font-family: var(--font-apple);
+                font-size: 1.05rem;
+                font-weight: 500;
                 line-height: 1;
                 backdrop-filter: blur(12px);
-                box-shadow: 0 14px 34px rgba(219, 160, 190, .16), inset 0 1px 0 rgba(255,255,255,.85) !important;
+                box-shadow: 0 10px 24px rgba(219, 160, 190, .12), inset 0 1px 0 rgba(255,255,255,.85) !important;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
                 color: #57505a !important;
-                margin: 0;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
                 line-height: 1;
                 font-size: inherit;
                 font-weight: inherit;
+                text-align: center;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
@@ -1746,8 +1774,8 @@ def inject_girlie_theme() -> None:
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
-                font-size: 1.02rem;
-                font-weight: 600;
+                font-size: .92rem;
+                font-weight: 500;
             }
 
             .login-footer-note,
@@ -1760,13 +1788,103 @@ def inject_girlie_theme() -> None:
             }
 
             .login-footer-note {
-                margin-top: .2rem;
-                font-size: 1.22rem;
+                margin-top: .18rem;
+                font-size: 1.05rem;
             }
 
             .login-footer-heart {
                 color: #cda3e8;
                 font-size: 1.05rem;
+                line-height: 1.1;
+            }
+        }
+
+        @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
+            .stApp:has(.girlie-login) {
+                background-image: var(--login-cover-mobile);
+                background-size: 100% 100%;
+                background-position: center top;
+            }
+
+            .girlie-login {
+                min-height: 29vh;
+            }
+
+            .passcode-dots {
+                top: 28.2vh;
+                gap: 3.18rem;
+            }
+
+            .passcode-dot {
+                width: .78rem;
+                height: .78rem;
+                border: 1.7px solid rgba(179, 151, 199, .72);
+                background: rgba(255, 255, 255, .12);
+                border-width: 1.7px;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
+                width: min(388px, 58vw);
+                gap: .66rem !important;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
+                width: 4.05rem;
+                height: 4.05rem;
+                min-height: 4.05rem;
+                display: inline-flex;
+                align-items: center;
+                justify-content: center;
+                padding: 0 !important;
+                border: 1px solid rgba(255, 255, 255, .82) !important;
+                background: rgba(255, 255, 255, .52) !important;
+                color: #57505a !important;
+                font-family: var(--font-apple);
+                font-size: 1.18rem;
+                font-weight: 500;
+                line-height: 1;
+                backdrop-filter: blur(12px);
+                box-shadow: 0 10px 24px rgba(219, 160, 190, .12), inset 0 1px 0 rgba(255,255,255,.85) !important;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
+                color: #57505a !important;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 100%;
+                height: 100%;
+                margin: 0 !important;
+                padding: 0 !important;
+                line-height: 1;
+                font-size: inherit;
+                font-weight: inherit;
+                text-align: center;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
+                font-size: 1rem;
+                font-weight: 500;
+            }
+
+            .login-footer-note,
+            .login-footer-heart {
+                display: block;
+                font-family: var(--font-display);
+                font-style: italic;
+                color: #f29ab0;
+                text-align: center;
+            }
+
+            .login-footer-note {
+                margin-top: .24rem;
+                font-size: 1.16rem;
+            }
+
+            .login-footer-heart {
+                color: #cda3e8;
+                font-size: 1.02rem;
                 line-height: 1.1;
             }
         }
