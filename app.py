@@ -10,6 +10,7 @@ from pathlib import Path
 
 import pandas as pd
 import streamlit as st
+import streamlit.components.v1 as components
 from PIL import Image
 
 
@@ -17,6 +18,7 @@ APP_DIR = Path(__file__).parent
 DATA_FILE = APP_DIR / "data" / "payment_data.json"
 APP_ICON_FILE = APP_DIR / "assets" / "app-icon.png"
 APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
+FAVICON_FILE = APP_DIR / "assets" / "favicon.png"
 LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
 LOGIN_COVER_FILE = APP_DIR / "assets" / "login-cover-reference.jpg"
 
@@ -123,15 +125,79 @@ def image_data_uri(path: Path) -> str:
 
 
 def inject_app_icon_links() -> None:
-    icon = image_data_uri(APP_ICON_FILE)
+    icon = image_data_uri(FAVICON_FILE)
+    app_icon = image_data_uri(APP_ICON_FILE)
     apple_icon = image_data_uri(APPLE_TOUCH_ICON_FILE)
+    manifest = {
+        "name": "My Nest Egg",
+        "short_name": "My Nest Egg",
+        "description": "Routine and money planner",
+        "start_url": ".",
+        "scope": ".",
+        "display": "standalone",
+        "background_color": "#ffffff",
+        "theme_color": "#ffffff",
+        "icons": [
+            {"src": apple_icon, "sizes": "180x180", "type": "image/png", "purpose": "any maskable"},
+            {"src": app_icon, "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+        ],
+    }
     st.markdown(
         f"""
         <link rel="icon" type="image/png" href="{icon}">
         <link rel="apple-touch-icon" href="{apple_icon}">
         <meta name="apple-mobile-web-app-title" content="My Nest Egg">
+        <meta name="application-name" content="My Nest Egg">
+        <meta name="theme-color" content="#ffffff">
         """,
         unsafe_allow_html=True,
+    )
+    components.html(
+        f"""
+        <script>
+        (() => {{
+            const head = window.parent.document.head;
+            const removeExisting = [
+                'link[rel="icon"]',
+                'link[rel="shortcut icon"]',
+                'link[rel="apple-touch-icon"]',
+                'link[rel="manifest"]',
+                'meta[name="apple-mobile-web-app-title"]',
+                'meta[name="application-name"]',
+                'meta[name="theme-color"]'
+            ];
+            removeExisting.forEach((selector) => {{
+                head.querySelectorAll(selector).forEach((element) => element.remove());
+            }});
+
+            const addElement = (tag, attrs) => {{
+                const element = window.parent.document.createElement(tag);
+                Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, value));
+                head.appendChild(element);
+                return element;
+            }};
+
+            addElement('link', {{ rel: 'icon', type: 'image/png', sizes: '32x32', href: {json.dumps(icon)} }});
+            addElement('link', {{ rel: 'shortcut icon', type: 'image/png', href: {json.dumps(icon)} }});
+            addElement('link', {{ rel: 'apple-touch-icon', sizes: '180x180', href: {json.dumps(apple_icon)} }});
+            addElement('meta', {{ name: 'apple-mobile-web-app-title', content: 'My Nest Egg' }});
+            addElement('meta', {{ name: 'application-name', content: 'My Nest Egg' }});
+            addElement('meta', {{ name: 'theme-color', content: '#ffffff' }});
+
+            if (window.parent.__myNestEggManifestUrl) {{
+                URL.revokeObjectURL(window.parent.__myNestEggManifestUrl);
+            }}
+            const manifest = {json.dumps(manifest)};
+            const blob = new Blob([JSON.stringify(manifest)], {{ type: 'application/manifest+json' }});
+            const manifestUrl = URL.createObjectURL(blob);
+            window.parent.__myNestEggManifestUrl = manifestUrl;
+            addElement('link', {{ rel: 'manifest', href: manifestUrl }});
+            window.parent.document.title = 'My Nest Egg';
+        }})();
+        </script>
+        """,
+        height=0,
+        width=0,
     )
 
 
