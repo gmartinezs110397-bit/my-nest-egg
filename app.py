@@ -1368,6 +1368,125 @@ def inject_girlie_theme() -> None:
 
         .week-dot.done span { background: #ff7f95; box-shadow: 0 0 0 3px rgba(255, 127, 149, .12); }
 
+        .wellness-top {
+            margin: .2rem 0 1rem;
+        }
+
+        .wellness-greeting {
+            color: #2f2145;
+            font-family: var(--font-display);
+            font-size: clamp(2.15rem, 5vw, 3.35rem);
+            font-weight: 780;
+            line-height: 1.02;
+            margin-bottom: .35rem;
+        }
+
+        .wellness-sub {
+            color: rgba(63, 43, 88, .68);
+            font-family: var(--font-ui);
+            font-size: .98rem;
+            font-weight: 600;
+            margin-bottom: .9rem;
+        }
+
+        .ritual-strip {
+            display: grid;
+            grid-template-columns: repeat(5, minmax(0, 1fr));
+            align-items: stretch;
+            border: 1px solid rgba(255, 204, 222, .58);
+            border-radius: 20px 20px 8px 8px;
+            background: rgba(255, 255, 255, .70);
+            box-shadow: 0 16px 38px rgba(63, 43, 88, .06);
+            overflow: hidden;
+            backdrop-filter: blur(14px);
+        }
+
+        .ritual-item {
+            min-width: 0;
+            padding: .88rem .45rem .78rem;
+            text-align: center;
+            border-right: 1px solid rgba(255, 159, 143, .32);
+        }
+
+        .ritual-item:last-child {
+            border-right: 0;
+        }
+
+        .ritual-icon {
+            color: #ff8ea3;
+            font-size: 1.65rem;
+            line-height: 1;
+            margin-bottom: .36rem;
+        }
+
+        .ritual-label {
+            color: #30243d;
+            font-size: .72rem;
+            font-weight: 850;
+            letter-spacing: .12em;
+            text-transform: uppercase;
+        }
+
+        .discipline-card {
+            width: min(520px, 92%);
+            margin: -.12rem auto 1.05rem;
+            padding: .95rem 1.1rem .82rem;
+            border-radius: 24px;
+            background: rgba(255, 255, 255, .78);
+            border: 1px solid rgba(255, 204, 222, .55);
+            box-shadow: 0 16px 38px rgba(63, 43, 88, .06);
+            text-align: center;
+            backdrop-filter: blur(16px);
+        }
+
+        .discipline-card .quote {
+            color: #ff8ea3;
+            font-size: 1.25rem;
+            font-weight: 900;
+        }
+
+        .discipline-main {
+            color: #3b2d47;
+            font-size: .88rem;
+            font-weight: 700;
+            letter-spacing: .26em;
+            text-transform: uppercase;
+        }
+
+        .discipline-script {
+            color: #ff8ea3;
+            font-family: var(--font-script);
+            font-size: 1.82rem;
+            line-height: .85;
+        }
+
+        .become-pill {
+            display: block;
+            width: min(340px, 88%);
+            margin: .25rem auto 1.15rem;
+            padding: .92rem 1.2rem;
+            border-radius: 999px;
+            background: linear-gradient(135deg, #ffb3c0 0%, #ff99ad 55%, #ffc5cc 100%);
+            border: 1px solid rgba(255, 134, 155, .55);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 14px 30px rgba(255, 126, 154, .24);
+            color: white;
+            text-align: center;
+            font-family: var(--font-ui);
+            font-size: 1rem;
+            font-weight: 850;
+            letter-spacing: .14em;
+            text-transform: uppercase;
+        }
+
+        .become-pill span {
+            color: #fff7bf;
+            font-family: var(--font-script);
+            font-size: 1.95rem;
+            font-weight: 400;
+            letter-spacing: 0;
+            text-transform: none;
+        }
+
         @media (max-width: 640px) {
             .stApp:not(:has(.girlie-login)) .block-container {
                 padding: .85rem .72rem 2.2rem;
@@ -1377,6 +1496,61 @@ def inject_girlie_theme() -> None:
             .stApp:not(:has(.girlie-login)) [data-testid="stMarkdownContainer"] h1 {
                 font-size: 2.15rem !important;
                 line-height: 1.05 !important;
+            }
+
+            .wellness-greeting {
+                font-size: 2rem;
+            }
+
+            .wellness-sub {
+                font-size: .9rem;
+            }
+
+            .ritual-strip {
+                grid-template-columns: repeat(5, minmax(68px, 1fr));
+                overflow-x: auto;
+                scrollbar-width: none;
+            }
+
+            .ritual-strip::-webkit-scrollbar {
+                display: none;
+            }
+
+            .ritual-item {
+                padding: .72rem .38rem .65rem;
+            }
+
+            .ritual-icon {
+                font-size: 1.28rem;
+            }
+
+            .ritual-label {
+                font-size: .58rem;
+                letter-spacing: .08em;
+            }
+
+            .discipline-card {
+                width: 92%;
+                padding: .78rem .8rem .7rem;
+            }
+
+            .discipline-main {
+                font-size: .72rem;
+                letter-spacing: .18em;
+            }
+
+            .discipline-script {
+                font-size: 1.45rem;
+            }
+
+            .become-pill {
+                width: 86%;
+                font-size: .82rem;
+                padding: .78rem 1rem;
+            }
+
+            .become-pill span {
+                font-size: 1.55rem;
             }
 
             .stApp:not(:has(.girlie-login)) [data-testid="stCaptionContainer"],
@@ -2301,6 +2475,42 @@ def render_routine_dashboard() -> None:
         render_weekly_tracker()
 
 
+def render_app_header() -> None:
+    rituals = [
+        ("☊", "Move"),
+        ("◌", "Nourish"),
+        ("♢", "Hydrate"),
+        ("✿", "Self Care"),
+        ("☾", "Rest"),
+    ]
+    ritual_html = "".join(
+        f"""
+        <div class="ritual-item">
+            <div class="ritual-icon">{icon}</div>
+            <div class="ritual-label">{label}</div>
+        </div>
+        """
+        for icon, label in rituals
+    )
+    st.markdown(
+        f"""
+        <div class="wellness-top">
+            <div class="wellness-greeting">Good morning, Gina.</div>
+            <div class="wellness-sub">Small habits, money clarity, and one more promise kept today.</div>
+            <div class="ritual-strip">{ritual_html}</div>
+            <div class="discipline-card">
+                <span class="quote">“</span>
+                <span class="discipline-main"> Discipline today, </span>
+                <span class="discipline-script">freedom tomorrow.</span>
+                <span class="quote"> ”</span>
+            </div>
+            <div class="become-pill">Let's become <span>her.</span></div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+
+
 def save_personal_debts(debts: pd.DataFrame) -> None:
     cleaned = debts.fillna("").to_dict("records")
     for index, debt in enumerate(cleaned, start=1):
@@ -2543,8 +2753,7 @@ def main() -> None:
     require_password()
     init_state()
 
-    st.title("Hello, Baby Girl")
-    st.caption("Small habits, money clarity, and one more promise kept today.")
+    render_app_header()
 
     tab_routine, tab_money, tab_history_data = st.tabs(["✧ Routine", "◇ Money", "▥ Data"])
 
