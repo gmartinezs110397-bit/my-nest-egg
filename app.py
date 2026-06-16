@@ -18,6 +18,7 @@ DATA_FILE = APP_DIR / "data" / "payment_data.json"
 APP_ICON_FILE = APP_DIR / "assets" / "app-icon.png"
 APPLE_TOUCH_ICON_FILE = APP_DIR / "assets" / "apple-touch-icon.png"
 LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
+LOGIN_COVER_FILE = APP_DIR / "assets" / "login-cover-reference.jpg"
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 WEEKDAY_ABBR = ["M", "T", "W", "T", "F", "S", "S"]
@@ -116,8 +117,9 @@ st.set_page_config(page_title="My Nest Egg", page_icon=Image.open(APP_ICON_FILE)
 def image_data_uri(path: Path) -> str:
     if not path.exists():
         return ""
+    mime = "image/jpeg" if path.suffix.lower() in {".jpg", ".jpeg"} else "image/png"
     encoded = base64.b64encode(path.read_bytes()).decode("ascii")
-    return f"data:image/png;base64,{encoded}"
+    return f"data:{mime};base64,{encoded}"
 
 
 def inject_app_icon_links() -> None:
@@ -135,11 +137,13 @@ def inject_app_icon_links() -> None:
 
 def inject_girlie_theme() -> None:
     login_bg = image_data_uri(LOGIN_BG_FILE)
+    login_cover = image_data_uri(LOGIN_COVER_FILE)
     st.markdown(
         """
         <style>
         :root {
             --login-bg: url('__LOGIN_BG__');
+            --login-cover: url('__LOGIN_COVER__');
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Arima:wght@400;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Fugaz+One&family=Grand+Hotel&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -171,25 +175,20 @@ def inject_girlie_theme() -> None:
 
         .stApp:has(.girlie-login) {
             min-height: 100vh;
-            background:
-                radial-gradient(circle at 52% 18%, rgba(255, 255, 255, .98), transparent 28%),
-                radial-gradient(circle at 17% 19%, rgba(255, 226, 196, .20), transparent 34%),
-                radial-gradient(circle at 83% 73%, rgba(255, 214, 225, .24), transparent 32%),
-                radial-gradient(circle at 50% 94%, rgba(205, 184, 240, .12), transparent 32%),
-                linear-gradient(120deg, rgba(250, 239, 230, .32), transparent 30%, rgba(255, 238, 244, .34) 100%),
-                #ffffff;
+            background: var(--login-cover), #ffffff;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
+            background-attachment: fixed;
         }
 
         .stApp:has(.girlie-login) [data-testid="stHeader"] {
-            background: transparent;
+            display: none;
         }
 
         .stApp:has(.girlie-login) .block-container {
-            max-width: 1120px;
-            padding-top: 1.15rem;
+            max-width: 100vw;
+            padding: 0;
         }
 
         .block-container {
@@ -689,11 +688,15 @@ def inject_girlie_theme() -> None:
             position: relative;
             z-index: 2;
             width: min(980px, 96vw);
-            min-height: 265px;
-            margin: .1rem auto 0;
+            min-height: min(46vh, 25rem);
+            margin: 0 auto;
             text-align: center;
-            padding: .45rem 1.2rem .05rem;
+            padding: 0;
             overflow: visible;
+        }
+
+        .girlie-login > * {
+            display: none !important;
         }
 
         .girlie-login::before {
@@ -1010,6 +1013,7 @@ def inject_girlie_theme() -> None:
             gap: .85rem;
             margin: -.12rem auto .6rem;
             min-height: 1.6rem;
+            visibility: hidden;
         }
 
         .passcode-dot {
@@ -1045,22 +1049,11 @@ def inject_girlie_theme() -> None:
             position: relative;
             z-index: 4;
             text-align: center;
+            display: none;
         }
 
         .passcode-grid-marker::before {
-            content: "";
-            position: absolute;
-            left: 50%;
-            top: -.28rem;
-            transform: translateX(-50%);
-            width: min(370px, 86vw);
-            height: 20.8rem;
-            border: 0;
-            border-radius: 999px;
-            background: radial-gradient(ellipse at center, rgba(255, 222, 234, .30), transparent 64%);
-            backdrop-filter: blur(2px);
-            box-shadow: none;
-            pointer-events: none;
+            display: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
@@ -1084,11 +1077,11 @@ def inject_girlie_theme() -> None:
             min-height: 4.45rem;
             margin: .12rem auto;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, .78);
-            background: rgba(255, 255, 255, .86);
-            backdrop-filter: blur(18px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.96), 0 13px 31px rgba(63, 43, 88, .11), 0 0 0 1px rgba(244, 154, 173, .22);
-            color: #1f1b24 !important;
+            border: 0 !important;
+            background: transparent !important;
+            backdrop-filter: none;
+            box-shadow: none !important;
+            color: transparent !important;
             font-size: 1.52rem;
             font-family: var(--font-ui);
             font-weight: 700;
@@ -1096,21 +1089,21 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
-            color: #1f1b24 !important;
+            color: transparent !important;
             font-weight: 700;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
-            border-color: rgba(244, 154, 173, .52);
-            color: #201528;
-            box-shadow: 0 0 0 1px rgba(255,255,255,.66), 0 0 24px rgba(244, 154, 173, .16);
+            border-color: transparent;
+            color: transparent;
+            box-shadow: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
-            background: rgba(255,255,255,.82);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.96), 0 13px 31px rgba(63, 43, 88, .09), 0 0 0 1px rgba(244, 154, 173, .18);
-            border-color: rgba(255, 255, 255, .78);
+            background: transparent !important;
+            box-shadow: none !important;
+            border-color: transparent !important;
             font-size: 1.02rem;
             font-weight: 700;
         }
@@ -1317,7 +1310,7 @@ def inject_girlie_theme() -> None:
             50% { opacity: 1; transform: scale(1.2) rotate(14deg); }
         }
         </style>
-        """.replace("__LOGIN_BG__", login_bg),
+        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover),
         unsafe_allow_html=True,
     )
 
