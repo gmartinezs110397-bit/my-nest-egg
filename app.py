@@ -121,8 +121,10 @@ def inject_girlie_theme() -> None:
         .stApp:has(.girlie-login) {
             min-height: 100vh;
             background:
-                linear-gradient(180deg, rgba(122, 143, 220, .18), rgba(255, 174, 205, .12)),
-                var(--login-bg);
+                radial-gradient(circle at 12% 12%, rgba(255, 60, 172, .08), transparent 26%),
+                radial-gradient(circle at 88% 16%, rgba(199, 164, 255, .12), transparent 28%),
+                radial-gradient(circle at 52% 88%, rgba(255, 232, 117, .10), transparent 30%),
+                #ffffff;
             background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
@@ -133,8 +135,8 @@ def inject_girlie_theme() -> None:
         }
 
         .stApp:has(.girlie-login) .block-container {
-            max-width: 1120px;
-            padding-top: 2.4rem;
+            max-width: 980px;
+            padding-top: 3.3rem;
         }
 
         .block-container {
@@ -632,11 +634,11 @@ def inject_girlie_theme() -> None:
 
         .girlie-login {
             position: relative;
-            width: min(860px, 96vw);
-            min-height: 222px;
-            margin: 1.1rem auto .25rem;
+            width: min(760px, 94vw);
+            min-height: 198px;
+            margin: 1.2rem auto .35rem;
             text-align: center;
-            padding: 1.35rem 1.2rem .15rem;
+            padding: 1.25rem 1.2rem .1rem;
             overflow: visible;
         }
 
@@ -645,13 +647,13 @@ def inject_girlie_theme() -> None:
         }
 
         .girlie-login::after {
-            content: "✦";
+            content: "✧";
             position: absolute;
-            right: 7%;
-            top: 38%;
-            color: rgba(255, 249, 219, .86);
-            font-size: 1.45rem;
-            text-shadow: 0 0 18px rgba(255, 247, 191, .72);
+            right: 12%;
+            top: 28%;
+            color: rgba(255, 60, 172, .54);
+            font-size: 1.25rem;
+            text-shadow: 0 0 18px rgba(255, 60, 172, .18);
             animation: sparkle 3.8s ease-in-out infinite;
             pointer-events: none;
         }
@@ -659,43 +661,43 @@ def inject_girlie_theme() -> None:
         .hello-lockup {
             position: relative;
             z-index: 1;
-            margin: .1rem auto .95rem;
-            color: white;
+            margin: .05rem auto 1rem;
+            color: #22172f;
         }
 
         .hello-line {
             display: block;
             letter-spacing: 0;
-            text-shadow: 0 10px 32px rgba(86, 78, 154, .18);
+            text-shadow: 0 10px 26px rgba(63, 43, 88, .08);
         }
 
         .hello-serif {
             display: inline-flex;
             align-items: center;
-            gap: .36rem;
-            color: rgba(255, 255, 255, .94);
+            gap: .32rem;
+            color: #201528;
             font-family: "Fraunces", Georgia, serif;
-            font-size: clamp(3.2rem, 8vw, 5.2rem);
+            font-size: clamp(2.9rem, 7.2vw, 4.55rem);
             font-weight: 650;
-            line-height: .84;
+            line-height: .88;
         }
 
         .hello-heart {
-            color: #ffd1e3;
+            color: #ff3cac;
             font-family: var(--font-script);
-            font-size: .74em;
+            font-size: .68em;
             font-weight: 400;
-            text-shadow: 0 0 16px rgba(255, 180, 216, .72);
+            text-shadow: 0 0 15px rgba(255, 60, 172, .24);
         }
 
         .hello-script {
             display: block;
-            margin-top: .1rem;
-            color: rgba(255, 248, 191, .94);
+            margin-top: .05rem;
+            color: #c026d3;
             font-family: var(--font-script);
-            font-size: clamp(3.15rem, 8.4vw, 5rem);
+            font-size: clamp(2.8rem, 7.5vw, 4.35rem);
             font-weight: 400;
-            line-height: .76;
+            line-height: .78;
         }
 
         .wallpaper-flower {
@@ -810,18 +812,18 @@ def inject_girlie_theme() -> None:
         }
 
         .passcode-dot {
-            width: 1.08rem;
-            height: 1.08rem;
+            width: .96rem;
+            height: .96rem;
             border-radius: 50%;
-            border: 3px solid rgba(255, 255, 255, .84);
-            background: rgba(255, 255, 255, .16);
-            box-shadow: 0 0 18px rgba(255, 255, 255, .32);
+            border: 2px solid rgba(63, 43, 88, .30);
+            background: rgba(255, 255, 255, .72);
+            box-shadow: 0 5px 16px rgba(255, 60, 172, .10);
         }
 
         .passcode-dot.filled {
-            border-color: rgba(255,255,255,.98);
-            background: rgba(255, 255, 255, .98);
-            box-shadow: 0 0 22px rgba(255, 255, 255, .55);
+            border-color: #ff3cac;
+            background: #ff3cac;
+            box-shadow: 0 0 18px rgba(255, 60, 172, .34);
         }
 
         .passcode-grid-marker {
@@ -837,23 +839,23 @@ def inject_girlie_theme() -> None:
             left: 50%;
             top: -.55rem;
             transform: translateX(-50%);
-            width: min(520px, 92vw);
-            height: 23.6rem;
-            border: 1px solid rgba(255, 255, 255, .54);
-            border-radius: 32px;
-            background: rgba(255, 255, 255, .16);
+            width: min(500px, 92vw);
+            height: 22.8rem;
+            border: 1px solid rgba(255, 204, 222, .70);
+            border-radius: 28px;
+            background: rgba(255, 255, 255, .72);
             backdrop-filter: blur(18px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.38), 0 24px 70px rgba(89, 74, 148, .12);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.86), 0 24px 60px rgba(63, 43, 88, .08);
             pointer-events: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-            width: min(380px, 84vw);
+            width: min(360px, 84vw);
             margin-left: auto;
             margin-right: auto;
             display: flex !important;
             flex-direction: row !important;
-            gap: 1.35rem !important;
+            gap: 1.18rem !important;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stColumn"] {
@@ -863,25 +865,25 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-            width: 4.25rem;
-            height: 4.25rem;
-            min-height: 4.25rem;
+            width: 4.05rem;
+            height: 4.05rem;
+            min-height: 4.05rem;
             margin: .18rem auto;
             border-radius: 50%;
-            border: 1px solid rgba(255, 255, 255, .62);
-            background: rgba(255, 255, 255, .18);
-            backdrop-filter: blur(16px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.48), 0 10px 24px rgba(83, 70, 146, .08);
-            color: rgba(76, 73, 134, .86);
-            font-size: 1.58rem;
+            border: 1px solid rgba(255, 204, 222, .72);
+            background: rgba(255, 255, 255, .84);
+            backdrop-filter: blur(14px);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.88), 0 10px 24px rgba(63, 43, 88, .08);
+            color: #4b3a68;
+            font-size: 1.48rem;
             font-family: var(--font-ui);
-            font-weight: 500;
+            font-weight: 600;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
-            border-color: rgba(255, 255, 255, .88);
-            color: rgba(72, 70, 132, .98);
-            box-shadow: 0 0 0 1px rgba(255,255,255,.44), 0 0 24px rgba(255, 255, 255, .34);
+            border-color: rgba(255, 60, 172, .48);
+            color: #201528;
+            box-shadow: 0 0 0 1px rgba(255,255,255,.66), 0 0 24px rgba(255, 60, 172, .16);
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
