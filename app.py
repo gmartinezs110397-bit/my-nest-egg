@@ -1707,7 +1707,7 @@ def inject_girlie_theme() -> None:
 
             .stApp:has(.girlie-login) {
                 background-image: var(--login-cover-mobile);
-                background-size: 100% 100%;
+                background-size: cover;
                 background-position: center top;
             }
 
@@ -1802,8 +1802,9 @@ def inject_girlie_theme() -> None:
         @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
             .stApp:has(.girlie-login) {
                 background-image: var(--login-cover-mobile);
-                background-size: 100% 100%;
+                background-size: auto 100%;
                 background-position: center top;
+                background-repeat: no-repeat;
             }
 
             .girlie-login {
