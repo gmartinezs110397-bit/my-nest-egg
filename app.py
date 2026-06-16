@@ -252,6 +252,15 @@ def inject_girlie_theme() -> None:
             display: none;
         }
 
+        .stApp:has(.girlie-login) #MainMenu,
+        .stApp:has(.girlie-login) footer,
+        .stApp:has(.girlie-login) [data-testid="stToolbar"],
+        .stApp:has(.girlie-login) [data-testid="stDecoration"],
+        .stApp:has(.girlie-login) [data-testid="stStatusWidget"],
+        .stApp:has(.girlie-login) [data-testid="stActionButton"] {
+            display: none !important;
+        }
+
         .stApp:has(.girlie-login) .block-container {
             max-width: 100vw;
             padding: 0;
@@ -761,7 +770,7 @@ def inject_girlie_theme() -> None:
             overflow: visible;
         }
 
-        .girlie-login > * {
+        .girlie-login > *:not(.passcode-dots) {
             display: none !important;
         }
 
@@ -1071,30 +1080,33 @@ def inject_girlie_theme() -> None:
         }
 
         .passcode-dots {
-            position: relative;
-            z-index: 2;
-            display: flex;
+            position: absolute;
+            left: 50%;
+            top: min(45.2vh, 24.6rem);
+            z-index: 6;
+            display: flex !important;
             align-items: center;
             justify-content: center;
-            gap: .85rem;
-            margin: -.12rem auto .6rem;
+            gap: clamp(4.35rem, 5.7vw, 5.95rem);
+            margin: 0;
             min-height: 1.6rem;
-            visibility: hidden;
+            transform: translateX(-50%);
+            pointer-events: none;
+            visibility: visible;
         }
 
         .passcode-dot {
-            width: 1.02rem;
-            height: 1.02rem;
+            width: 1rem;
+            height: 1rem;
             border-radius: 50%;
-            border: 2px solid rgba(201, 162, 232, .84);
-            background: rgba(255, 255, 255, .72);
-            box-shadow: 0 5px 16px rgba(242, 157, 176, .08);
+            border: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         .passcode-dot.filled {
-            border-color: #f49aad;
-            background: #f49aad;
-            box-shadow: 0 0 18px rgba(244, 154, 173, .30);
+            background: #c99be6;
+            box-shadow: 0 0 18px rgba(201, 155, 230, .36);
         }
 
         .passcode-grid-marker {
@@ -1454,12 +1466,17 @@ def inject_girlie_theme() -> None:
             }
 
             .stApp:has(.girlie-login) {
-                background-size: auto 100%;
-                background-position: center center;
+                background-size: auto 86%;
+                background-position: center top;
             }
 
             .girlie-login {
-                min-height: min(46vh, 25rem);
+                min-height: min(39.5vh, 21.5rem);
+            }
+
+            .passcode-dots {
+                top: min(32.4vh, 17.8rem);
+                gap: 2.8rem;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
