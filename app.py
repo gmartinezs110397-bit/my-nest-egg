@@ -176,7 +176,7 @@ def inject_girlie_theme() -> None:
         .stApp:has(.girlie-login) {
             min-height: 100vh;
             background: var(--login-cover), #ffffff;
-            background-size: cover;
+            background-size: auto 100%;
             background-position: center center;
             background-repeat: no-repeat;
             background-attachment: fixed;
@@ -1290,6 +1290,130 @@ def inject_girlie_theme() -> None:
 
         .week-dot.done span { background: #ff7f95; box-shadow: 0 0 0 3px rgba(255, 127, 149, .12); }
 
+        @media (max-width: 640px) {
+            .stApp:not(:has(.girlie-login)) .block-container {
+                padding: .85rem .72rem 2.2rem;
+            }
+
+            .stApp:not(:has(.girlie-login)) h1,
+            .stApp:not(:has(.girlie-login)) [data-testid="stMarkdownContainer"] h1 {
+                font-size: 2.15rem !important;
+                line-height: 1.05 !important;
+            }
+
+            .stApp:not(:has(.girlie-login)) [data-testid="stCaptionContainer"],
+            .stApp:not(:has(.girlie-login)) p {
+                overflow-wrap: anywhere;
+            }
+
+            [data-baseweb="tab-list"] {
+                overflow-x: auto;
+                overflow-y: hidden;
+                scrollbar-width: none;
+                gap: .25rem;
+                padding: .18rem;
+            }
+
+            [data-baseweb="tab-list"]::-webkit-scrollbar {
+                display: none;
+            }
+
+            [data-baseweb="tab"] {
+                flex: 0 0 auto;
+                min-height: 2.25rem;
+                padding: 0 .62rem;
+                font-size: .82rem;
+            }
+
+            .section-title {
+                font-size: 1.32rem;
+                line-height: 1.05;
+                flex-wrap: wrap;
+            }
+
+            .summary-grid,
+            .credit-grid,
+            .debt-total-grid,
+            .routine-mini-grid,
+            .routine-week-grid {
+                grid-template-columns: 1fr !important;
+            }
+
+            .summary-value,
+            .mini-card-value,
+            .quick-card-value,
+            .payment-amount,
+            .debt-row-amount {
+                white-space: normal;
+                overflow-wrap: anywhere;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.section-shell-marker),
+            div[data-testid="stVerticalBlock"]:has(.routine-section-marker),
+            div[data-testid="stVerticalBlock"]:has(.field-card-marker) {
+                padding: .82rem;
+            }
+
+            .routine-hero {
+                padding: 1rem;
+            }
+
+            .routine-title {
+                font-size: 2.05rem;
+            }
+
+            .routine-subtitle,
+            .mantra-text {
+                font-size: 1.45rem;
+            }
+
+            .week-row {
+                grid-template-columns: minmax(92px, 1.25fr) repeat(7, minmax(18px, 1fr));
+                gap: .18rem;
+            }
+
+            .week-name {
+                font-size: .72rem;
+            }
+
+            .debt-row-card {
+                grid-template-columns: auto 1fr;
+                align-items: start;
+            }
+
+            .debt-row-amount,
+            .debt-row-chevron {
+                grid-column: 2;
+                justify-self: start;
+            }
+
+            .stApp:has(.girlie-login) {
+                background-size: auto 100%;
+                background-position: center center;
+            }
+
+            .girlie-login {
+                min-height: min(46vh, 25rem);
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
+                width: min(340px, 94vw);
+                gap: .82rem !important;
+            }
+
+            div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
+                width: clamp(3.85rem, 18vw, 4.45rem);
+                height: clamp(3.85rem, 18vw, 4.45rem);
+                min-height: clamp(3.85rem, 18vw, 4.45rem);
+            }
+        }
+
+        @media (min-aspect-ratio: 16/9) {
+            .stApp:has(.girlie-login) {
+                background-size: auto 100%;
+            }
+        }
+
         @keyframes sunriseGlow {
             0%, 100% { transform: translateY(0) scale(1); opacity: .78; }
             50% { transform: translateY(10px) scale(1.04); opacity: 1; }
@@ -2339,7 +2463,7 @@ def main() -> None:
     st.title("Hello, Baby Girl")
     st.caption("Small habits, money clarity, and one more promise kept today.")
 
-    tab_routine, tab_money, tab_history_data = st.tabs(["✧ Routine", "◇ Money", "▥ History & Data"])
+    tab_routine, tab_money, tab_history_data = st.tabs(["✧ Routine", "◇ Money", "▥ Data"])
 
     with tab_routine:
         render_routine_dashboard()
