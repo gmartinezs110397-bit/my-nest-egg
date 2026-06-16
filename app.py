@@ -235,9 +235,9 @@ def inject_girlie_theme() -> None:
 
         .stApp {
             background:
-                radial-gradient(circle at 10% 10%, rgba(255, 232, 117, .22), transparent 30%),
-                radial-gradient(circle at 86% 14%, rgba(255, 159, 143, .20), transparent 32%),
-                linear-gradient(135deg, #fffdf4 0%, #fff1e8 42%, #f7efff 100%);
+                radial-gradient(circle at 8% 6%, rgba(255, 232, 117, .16), transparent 24%),
+                radial-gradient(circle at 92% 4%, rgba(255, 159, 143, .12), transparent 28%),
+                linear-gradient(180deg, #fffdfb 0%, #fffaf7 48%, #fffdfb 100%);
             color: var(--ink);
             font-family: var(--font-ui);
         }
@@ -304,10 +304,10 @@ def inject_girlie_theme() -> None:
         [data-testid="stExpander"],
         div[data-testid="stFileUploader"],
         div[data-testid="stDownloadButton"] {
-            border: 1px solid rgba(255, 159, 143, 0.34);
+            border: 1px solid rgba(63, 43, 88, 0.10);
             border-radius: 8px;
-            background: var(--soft-card);
-            box-shadow: 0 14px 34px rgba(63, 43, 88, 0.08);
+            background: rgba(255, 255, 255, 0.66);
+            box-shadow: none;
         }
 
         .credit-grid {
@@ -325,11 +325,11 @@ def inject_girlie_theme() -> None:
         }
 
         .summary-card {
-            border: 1px solid rgba(255, 159, 143, 0.32);
+            border: 1px solid rgba(63, 43, 88, 0.10);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.74);
-            box-shadow: 0 12px 32px rgba(63, 43, 88, 0.08);
-            padding: 1rem;
+            background: rgba(255, 255, 255, 0.52);
+            box-shadow: none;
+            padding: .95rem 1rem;
             min-width: 0;
         }
 
@@ -382,11 +382,12 @@ def inject_girlie_theme() -> None:
 
         div[data-testid="stVerticalBlock"]:has(.section-shell-marker) {
             position: relative;
-            padding: 1rem 1rem 1.05rem;
-            border: 1px solid rgba(255, 204, 222, .58);
-            border-radius: 18px;
-            background: rgba(255, 255, 255, .72);
-            box-shadow: 0 16px 42px rgba(63, 43, 88, .07);
+            padding: .95rem 0 1.1rem;
+            border: 0;
+            border-top: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
             overflow: visible;
         }
 
@@ -401,8 +402,8 @@ def inject_girlie_theme() -> None:
             display: grid;
             place-items: center;
             color: #ff3cac;
-            background: rgba(255, 232, 117, .35);
-            box-shadow: 0 0 14px rgba(255, 60, 172, .2);
+            background: rgba(255, 232, 117, .26);
+            box-shadow: none;
             font-family: var(--font-script);
             pointer-events: none;
         }
@@ -432,7 +433,7 @@ def inject_girlie_theme() -> None:
             display: inline-flex;
             width: 2.1rem;
             height: 2.1rem;
-            border-radius: 8px;
+            border-radius: 999px;
             align-items: center;
             justify-content: center;
             font-family: var(--font-ui);
@@ -455,12 +456,12 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.field-card-marker) {
-            min-height: 7.2rem;
-            padding: .85rem .9rem .75rem;
-            border: 1px solid rgba(255, 204, 222, .56);
+            min-height: 6.85rem;
+            padding: .8rem .85rem .72rem;
+            border: 1px solid rgba(63, 43, 88, .09);
             border-radius: 8px;
-            background: rgba(255,255,255,.84);
-            box-shadow: 0 10px 26px rgba(63, 43, 88, .06);
+            background: rgba(255,255,255,.48);
+            box-shadow: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.field-card-marker) [data-testid="stWidgetLabel"] {
@@ -470,6 +471,23 @@ def inject_girlie_theme() -> None:
         div[data-testid="stVerticalBlock"]:has(.field-card-marker) input {
             color: #352153;
             font-weight: 850;
+        }
+
+        div[data-testid="stColumn"] > div[data-testid="stVerticalBlock"]:has(.field-card-marker) {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.section-shell-marker) {
+            padding: .95rem 0 1.1rem;
+            border: 0;
+            border-top: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         .debt-total-grid {
@@ -483,11 +501,11 @@ def inject_girlie_theme() -> None:
             display: flex;
             align-items: center;
             gap: .75rem;
-            border: 1px solid rgba(255, 204, 222, .56);
+            border: 1px solid rgba(63, 43, 88, .09);
             border-radius: 8px;
-            background: rgba(255,255,255,.84);
+            background: rgba(255,255,255,.48);
             padding: .85rem .95rem;
-            box-shadow: 0 10px 26px rgba(63, 43, 88, .06);
+            box-shadow: none;
             min-width: 0;
         }
 
@@ -541,10 +559,10 @@ def inject_girlie_theme() -> None:
         }
 
         .credit-card {
-            border: 1px solid rgba(255, 159, 143, 0.32);
+            border: 1px solid rgba(63, 43, 88, 0.10);
             border-radius: 8px;
-            background: rgba(255, 255, 255, 0.74);
-            box-shadow: 0 12px 32px rgba(63, 43, 88, 0.08);
+            background: rgba(255, 255, 255, 0.52);
+            box-shadow: none;
             padding: 1rem;
         }
 
@@ -666,11 +684,11 @@ def inject_girlie_theme() -> None:
             justify-content: space-between;
             gap: .75rem;
             align-items: center;
-            border: 1px solid rgba(199, 164, 255, .28);
+            border: 1px solid rgba(63, 43, 88, .09);
             border-radius: 8px;
-            background: rgba(255, 255, 255, .70);
+            background: rgba(255, 255, 255, .46);
             padding: .7rem .85rem;
-            box-shadow: 0 8px 20px rgba(63, 43, 88, .06);
+            box-shadow: none;
         }
 
         .payment-name {
@@ -704,11 +722,11 @@ def inject_girlie_theme() -> None:
 
         div.stButton > button,
         div[data-testid="stDownloadButton"] button {
-            border: 1px solid rgba(255, 159, 143, 0.34);
+            border: 1px solid rgba(63, 43, 88, 0.12);
             border-radius: 8px;
-            background: linear-gradient(180deg, rgba(255,255,255,.82) 0%, rgba(199,164,255,.20) 100%);
+            background: rgba(255,255,255,.62);
             color: var(--ink);
-            box-shadow: 0 8px 18px rgba(255, 159, 143, 0.12);
+            box-shadow: none;
             font-family: var(--font-ui);
             font-weight: 700;
         }
@@ -728,18 +746,19 @@ def inject_girlie_theme() -> None:
 
         [data-baseweb="tab-list"] {
             gap: .45rem;
-            padding: .35rem;
-            margin: .75rem 0 .9rem;
-            border: 1px solid rgba(255, 255, 255, .58);
-            border-radius: 999px;
-            background: rgba(255, 255, 255, .38);
-            backdrop-filter: blur(16px);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 12px 28px rgba(63, 43, 88, .08);
+            padding: 0 0 .35rem;
+            margin: .85rem 0 1rem;
+            border: 0;
+            border-bottom: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
+            background: transparent;
+            backdrop-filter: none;
+            box-shadow: none;
         }
 
         [data-baseweb="tab"] {
-            min-height: 2.45rem;
-            padding: 0 .95rem;
+            min-height: 2.25rem;
+            padding: 0 .85rem;
             border-radius: 999px;
             color: var(--ink);
             background: transparent;
@@ -753,9 +772,9 @@ def inject_girlie_theme() -> None:
         }
 
         [aria-selected="true"][data-baseweb="tab"] {
-            background: linear-gradient(135deg, rgba(255,255,255,.88) 0%, rgba(255,232,117,.48) 48%, rgba(255,159,143,.42) 100%);
+            background: linear-gradient(135deg, rgba(255,232,117,.28) 0%, rgba(255,159,143,.22) 100%);
             color: #7a1c77;
-            box-shadow: 0 8px 18px rgba(255, 159, 143, .16), 0 0 0 1px rgba(255,255,255,.7);
+            box-shadow: none;
         }
 
         [data-baseweb="tab-highlight"] {
@@ -1195,15 +1214,15 @@ def inject_girlie_theme() -> None:
         .routine-hero {
             position: relative;
             overflow: hidden;
-            border: 1px solid rgba(255, 204, 222, .72);
-            border-radius: 20px;
+            border: 0;
+            border-bottom: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
             background:
-                radial-gradient(circle at 8% 18%, rgba(255, 232, 117, .38), transparent 22%),
-                radial-gradient(circle at 84% 22%, rgba(199, 164, 255, .28), transparent 24%),
-                linear-gradient(135deg, rgba(255,255,255,.94), rgba(255, 246, 249, .86));
-            padding: 1.2rem 1.25rem;
-            box-shadow: 0 18px 44px rgba(63, 43, 88, .08);
-            margin-bottom: 1rem;
+                radial-gradient(circle at 8% 18%, rgba(255, 232, 117, .24), transparent 24%),
+                radial-gradient(circle at 84% 22%, rgba(199, 164, 255, .18), transparent 26%);
+            padding: .55rem 0 1rem;
+            box-shadow: none;
+            margin-bottom: 1.05rem;
         }
 
         .routine-kicker {
@@ -1258,14 +1277,18 @@ def inject_girlie_theme() -> None:
         .routine-mini-card,
         .coach-card,
         div[data-testid="stVerticalBlock"]:has(.routine-section-marker) {
-            border: 1px solid rgba(255, 204, 222, .62);
-            border-radius: 14px;
-            background: rgba(255,255,255,.78);
-            box-shadow: 0 14px 34px rgba(63, 43, 88, .06);
+            border: 1px solid rgba(63, 43, 88, .09);
+            border-radius: 8px;
+            background: rgba(255,255,255,.46);
+            box-shadow: none;
         }
 
         .routine-mini-card {
-            padding: .85rem .95rem;
+            padding: .72rem 0 .78rem;
+            border: 0;
+            border-bottom: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
+            background: transparent;
         }
 
         .routine-mini-label {
@@ -1284,8 +1307,17 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.routine-section-marker) {
-            padding: .95rem 1rem;
+            padding: .85rem .9rem;
             min-height: 100%;
+        }
+
+        div[data-testid="stVerticalBlock"]:has(.wellness-top),
+        div[data-testid="stVerticalBlock"]:has(.routine-hero) {
+            padding: 0;
+            border: 0;
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
         }
 
         .routine-section-heading {
@@ -1294,9 +1326,10 @@ def inject_girlie_theme() -> None:
             justify-content: space-between;
             gap: .75rem;
             margin-bottom: .45rem;
-            padding: .38rem .55rem;
-            border-radius: 8px;
-            background: linear-gradient(90deg, rgba(255, 204, 222, .56), rgba(255, 232, 117, .35), rgba(199, 164, 255, .28));
+            padding: .18rem 0 .42rem;
+            border-radius: 0;
+            border-bottom: 1px solid rgba(255, 159, 143, .22);
+            background: transparent;
             color: #33224c;
             font-family: var(--font-ui);
             font-size: .78rem;
@@ -1317,8 +1350,14 @@ def inject_girlie_theme() -> None:
         }
 
         .coach-card {
-            padding: .95rem 1rem;
+            padding: .85rem 0 .9rem .85rem;
             margin-bottom: .75rem;
+            border-top: 0;
+            border-right: 0;
+            border-bottom: 1px solid rgba(63, 43, 88, .10);
+            border-radius: 0;
+            background: transparent;
+            border-left: 3px solid rgba(255, 142, 163, .62);
         }
 
         .coach-title {
@@ -1402,12 +1441,14 @@ def inject_girlie_theme() -> None:
             display: grid;
             grid-template-columns: repeat(5, minmax(0, 1fr));
             align-items: stretch;
-            border: 1px solid rgba(255, 204, 222, .58);
-            border-radius: 20px 20px 8px 8px;
-            background: rgba(255, 255, 255, .70);
-            box-shadow: 0 16px 38px rgba(63, 43, 88, .06);
+            border: 0;
+            border-top: 1px solid rgba(255, 159, 143, .18);
+            border-bottom: 1px solid rgba(255, 159, 143, .18);
+            border-radius: 0;
+            background: transparent;
+            box-shadow: none;
             overflow: hidden;
-            backdrop-filter: blur(14px);
+            backdrop-filter: none;
         }
 
         .ritual-item {
@@ -1439,13 +1480,14 @@ def inject_girlie_theme() -> None:
         .discipline-card {
             width: min(520px, 92%);
             margin: -.12rem auto 1.05rem;
-            padding: .95rem 1.1rem .82rem;
-            border-radius: 24px;
-            background: rgba(255, 255, 255, .78);
-            border: 1px solid rgba(255, 204, 222, .55);
-            box-shadow: 0 16px 38px rgba(63, 43, 88, .06);
+            padding: .85rem 1.1rem .78rem;
+            border-radius: 0;
+            background: transparent;
+            border: 0;
+            border-bottom: 1px solid rgba(255, 159, 143, .18);
+            box-shadow: none;
             text-align: center;
-            backdrop-filter: blur(16px);
+            backdrop-filter: none;
         }
 
         .discipline-card .quote {
@@ -1477,9 +1519,9 @@ def inject_girlie_theme() -> None:
             margin: .25rem auto 1.15rem;
             padding: .92rem 1.2rem;
             border-radius: 999px;
-            background: linear-gradient(135deg, #ffb3c0 0%, #ff99ad 55%, #ffc5cc 100%);
-            border: 1px solid rgba(255, 134, 155, .55);
-            box-shadow: inset 0 1px 0 rgba(255,255,255,.6), 0 14px 30px rgba(255, 126, 154, .24);
+            background: linear-gradient(135deg, rgba(255, 179, 192, .84) 0%, rgba(255, 153, 173, .86) 55%, rgba(255, 197, 204, .78) 100%);
+            border: 1px solid rgba(255, 134, 155, .34);
+            box-shadow: none;
             color: white;
             text-align: center;
             font-family: var(--font-ui);
