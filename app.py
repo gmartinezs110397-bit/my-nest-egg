@@ -172,10 +172,11 @@ def inject_girlie_theme() -> None:
         .stApp:has(.girlie-login) {
             min-height: 100vh;
             background:
-                radial-gradient(circle at 50% 20%, rgba(255, 255, 255, .96), transparent 26%),
-                radial-gradient(circle at 14% 18%, rgba(255, 224, 188, .23), transparent 32%),
-                radial-gradient(circle at 86% 70%, rgba(255, 204, 222, .18), transparent 30%),
-                radial-gradient(circle at 48% 92%, rgba(199, 164, 255, .11), transparent 30%),
+                radial-gradient(circle at 52% 18%, rgba(255, 255, 255, .98), transparent 28%),
+                radial-gradient(circle at 17% 19%, rgba(255, 226, 196, .20), transparent 34%),
+                radial-gradient(circle at 83% 73%, rgba(255, 214, 225, .24), transparent 32%),
+                radial-gradient(circle at 50% 94%, rgba(205, 184, 240, .12), transparent 32%),
+                linear-gradient(120deg, rgba(250, 239, 230, .32), transparent 30%, rgba(255, 238, 244, .34) 100%),
                 #ffffff;
             background-size: cover;
             background-position: center center;
@@ -187,8 +188,8 @@ def inject_girlie_theme() -> None:
         }
 
         .stApp:has(.girlie-login) .block-container {
-            max-width: 980px;
-            padding-top: 3.3rem;
+            max-width: 1120px;
+            padding-top: 1.15rem;
         }
 
         .block-container {
@@ -686,52 +687,103 @@ def inject_girlie_theme() -> None:
 
         .girlie-login {
             position: relative;
-            width: min(840px, 94vw);
-            min-height: 255px;
-            margin: .2rem auto .15rem;
+            z-index: 2;
+            width: min(980px, 96vw);
+            min-height: 265px;
+            margin: .1rem auto 0;
             text-align: center;
-            padding: .35rem 1.2rem .1rem;
+            padding: .45rem 1.2rem .05rem;
             overflow: visible;
         }
 
         .girlie-login::before {
-            content: "";
-            position: fixed;
-            inset: 0;
-            z-index: 0;
-            pointer-events: none;
-            background:
-                linear-gradient(110deg, rgba(83, 65, 109, .16), transparent 22%) left top / 32rem 100% no-repeat,
-                radial-gradient(ellipse at 4% 8%, rgba(71, 54, 94, .18), transparent 28%),
-                radial-gradient(ellipse at 93% 83%, rgba(255, 171, 196, .26), transparent 24%),
-                radial-gradient(ellipse at 82% 84%, rgba(126, 98, 154, .12), transparent 22%);
-            filter: blur(2px);
-            opacity: .62;
+            display: none;
         }
 
         .girlie-login::after {
-            content: "";
+            display: none;
+        }
+
+        .login-palm-shadow {
             position: absolute;
-            right: -9vw;
-            bottom: -19rem;
-            width: 17rem;
-            height: 20rem;
-            border-radius: 46% 54% 0 0;
-            background:
-                radial-gradient(circle at 45% 24%, rgba(255, 255, 255, .82) 0 .55rem, transparent .58rem),
-                radial-gradient(circle at 57% 31%, rgba(255, 182, 202, .82) 0 .5rem, transparent .53rem),
-                radial-gradient(circle at 39% 40%, rgba(255, 226, 234, .86) 0 .52rem, transparent .55rem),
-                linear-gradient(78deg, transparent 48%, rgba(173, 130, 102, .26) 49%, transparent 51%),
-                radial-gradient(ellipse at 50% 20%, rgba(255, 220, 230, .44), transparent 38%);
-            opacity: .42;
-            filter: blur(.2px);
+            left: -18vw;
+            top: -5.5rem;
+            width: 35rem;
+            height: 18rem;
+            z-index: 0;
+            opacity: .36;
+            filter: blur(2px);
+            transform: rotate(-10deg);
             pointer-events: none;
         }
 
+        .login-palm-shadow span {
+            position: absolute;
+            left: 3rem;
+            top: 8rem;
+            width: 25rem;
+            height: 1.05rem;
+            border-radius: 999px;
+            background: linear-gradient(90deg, rgba(61, 47, 77, .38), transparent 74%);
+            transform-origin: left center;
+        }
+
+        .login-palm-shadow span:nth-child(1) { transform: rotate(-40deg); }
+        .login-palm-shadow span:nth-child(2) { transform: rotate(-24deg); top: 7.4rem; }
+        .login-palm-shadow span:nth-child(3) { transform: rotate(-9deg); top: 6.9rem; }
+        .login-palm-shadow span:nth-child(4) { transform: rotate(8deg); top: 6.7rem; }
+        .login-palm-shadow span:nth-child(5) { transform: rotate(25deg); top: 7.2rem; }
+        .login-palm-shadow span:nth-child(6) { transform: rotate(42deg); top: 8rem; }
+
+        .login-flower-spray {
+            position: absolute;
+            right: -7vw;
+            bottom: -30rem;
+            width: 22rem;
+            height: 25rem;
+            z-index: 0;
+            opacity: .70;
+            pointer-events: none;
+        }
+
+        .login-flower-spray::before {
+            content: "";
+            position: absolute;
+            left: 45%;
+            bottom: 0;
+            width: 1px;
+            height: 22rem;
+            background: rgba(170, 125, 92, .35);
+            transform: rotate(-18deg);
+            transform-origin: bottom;
+            box-shadow:
+                -4rem -4rem 0 rgba(170, 125, 92, .18),
+                3.2rem -6rem 0 rgba(170, 125, 92, .14);
+        }
+
+        .login-flower-spray span {
+            position: absolute;
+            width: 1.35rem;
+            height: 1.35rem;
+            border-radius: 50%;
+            background:
+                radial-gradient(circle at 50% 50%, rgba(255, 235, 220, .95) 0 .22rem, transparent .24rem),
+                radial-gradient(circle at 25% 35%, rgba(255, 255, 255, .9) 0 .32rem, transparent .34rem),
+                radial-gradient(circle at 70% 34%, rgba(255, 214, 224, .9) 0 .32rem, transparent .34rem),
+                radial-gradient(circle at 42% 72%, rgba(255, 196, 214, .86) 0 .34rem, transparent .36rem);
+            filter: drop-shadow(0 8px 14px rgba(245, 170, 190, .16));
+        }
+
+        .login-flower-spray span:nth-child(1) { left: 43%; top: 21%; }
+        .login-flower-spray span:nth-child(2) { left: 54%; top: 28%; transform: scale(.8); }
+        .login-flower-spray span:nth-child(3) { left: 36%; top: 35%; transform: scale(.72); }
+        .login-flower-spray span:nth-child(4) { left: 62%; top: 42%; transform: scale(.68); }
+        .login-flower-spray span:nth-child(5) { left: 48%; top: 50%; transform: scale(.62); }
+
         .hello-lockup {
             position: relative;
-            z-index: 1;
-            margin: .05rem auto .82rem;
+            z-index: 3;
+            margin: -.05rem auto .56rem;
             color: #22172f;
         }
 
@@ -740,10 +792,10 @@ def inject_girlie_theme() -> None:
             z-index: 2;
             color: #f49aad;
             font-family: "Fraunces", Georgia, serif;
-            font-size: clamp(2rem, 5vw, 3.4rem);
+            font-size: clamp(2.35rem, 5.6vw, 3.75rem);
             font-weight: 650;
             line-height: .8;
-            margin-bottom: .42rem;
+            margin-bottom: .18rem;
             text-shadow: 0 8px 22px rgba(255, 155, 180, .16);
         }
 
@@ -767,9 +819,9 @@ def inject_girlie_theme() -> None:
             gap: .32rem;
             color: #29242b;
             font-family: "Fraunces", Georgia, serif;
-            font-size: clamp(4.3rem, 10vw, 6.4rem);
+            font-size: clamp(4.85rem, 10.8vw, 7.05rem);
             font-weight: 650;
-            line-height: .76;
+            line-height: .70;
         }
 
         .hello-heart {
@@ -786,9 +838,9 @@ def inject_girlie_theme() -> None:
             color: #f191a8;
             font-family: "Fraunces", Georgia, serif;
             font-style: italic;
-            font-size: clamp(3.4rem, 8.4vw, 5.4rem);
+            font-size: clamp(3.85rem, 9.2vw, 6.0rem);
             font-weight: 750;
-            line-height: .78;
+            line-height: .72;
         }
 
         .login-tagline {
@@ -801,9 +853,9 @@ def inject_girlie_theme() -> None:
             font-family: var(--font-ui);
             font-size: clamp(.82rem, 1.8vw, 1.02rem);
             font-weight: 500;
-            letter-spacing: .34em;
+            letter-spacing: .36em;
             text-transform: uppercase;
-            margin: .28rem auto .78rem;
+            margin: .34rem auto .70rem;
         }
 
         .login-tagline::before,
@@ -817,7 +869,7 @@ def inject_girlie_theme() -> None:
 
         .login-sparkle {
             position: absolute;
-            z-index: 1;
+            z-index: 2;
             color: #f49aad;
             font-family: var(--font-ui);
             font-size: 1.6rem;
@@ -826,10 +878,10 @@ def inject_girlie_theme() -> None:
             pointer-events: none;
         }
 
-        .login-sparkle.one { left: 16%; top: 43%; }
-        .login-sparkle.two { right: 18%; top: 38%; color: #c9a2e8; animation-delay: 1.2s; }
-        .login-sparkle.three { left: 24%; top: 71%; font-size: 1.1rem; color: #c9a2e8; animation-delay: 2.1s; }
-        .login-sparkle.four { right: 12%; top: 74%; font-size: 1.9rem; animation-delay: 2.8s; }
+        .login-sparkle.one { left: 19%; top: 46%; }
+        .login-sparkle.two { right: 21%; top: 39%; color: #c9a2e8; animation-delay: 1.2s; }
+        .login-sparkle.three { left: 27%; top: 72%; font-size: 1.1rem; color: #c9a2e8; animation-delay: 2.1s; }
+        .login-sparkle.four { right: 14%; top: 77%; font-size: 1.9rem; animation-delay: 2.8s; }
 
         .login-footer-note {
             position: relative;
@@ -1012,12 +1064,12 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
-            width: min(330px, 82vw);
+            width: min(356px, 84vw);
             margin-left: auto;
             margin-right: auto;
             display: flex !important;
             flex-direction: row !important;
-            gap: 1.05rem !important;
+            gap: 1.16rem !important;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stColumn"] {
@@ -1027,10 +1079,10 @@ def inject_girlie_theme() -> None:
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
-            width: 4.25rem;
-            height: 4.25rem;
-            min-height: 4.25rem;
-            margin: .08rem auto;
+            width: 4.45rem;
+            height: 4.45rem;
+            min-height: 4.45rem;
+            margin: .12rem auto;
             border-radius: 50%;
             border: 1px solid rgba(255, 255, 255, .78);
             background: rgba(255, 255, 255, .86);
@@ -1056,11 +1108,11 @@ def inject_girlie_theme() -> None:
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
-            background: transparent;
-            box-shadow: none;
-            border-color: transparent;
+            background: rgba(255,255,255,.82);
+            box-shadow: inset 0 1px 0 rgba(255,255,255,.96), 0 13px 31px rgba(63, 43, 88, .09), 0 0 0 1px rgba(244, 154, 173, .18);
+            border-color: rgba(255, 255, 255, .78);
             font-size: 1.02rem;
-            font-weight: 600;
+            font-weight: 700;
         }
 
         .routine-hero {
@@ -1278,6 +1330,8 @@ def render_login_hero() -> None:
     st.markdown(
         f"""
         <div class="girlie-login">
+            <div class="login-palm-shadow"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <div class="login-flower-spray"><span></span><span></span><span></span><span></span><span></span></div>
             <div class="login-sparkle one">✧</div>
             <div class="login-sparkle two">✧</div>
             <div class="login-sparkle three">✧</div>
