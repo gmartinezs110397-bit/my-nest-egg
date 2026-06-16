@@ -212,7 +212,7 @@ def inject_girlie_theme() -> None:
             --login-cover: url('__LOGIN_COVER__');
         }
 
-        @import url('https://fonts.googleapis.com/css2?family=Arima:wght@400;600;700&family=Fraunces:opsz,wght@9..144,650;9..144,750&family=Fugaz+One&family=Grand+Hotel&family=Inter:wght@400;500;600;700;800;900&display=swap');
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,650;0,9..144,750;1,9..144,650;1,9..144,750&family=Fugaz+One&family=Inter:wght@400;500;600;700;800;900&display=swap');
 
         :root {
             --baby-blue: #d9f7ff;
@@ -224,9 +224,9 @@ def inject_girlie_theme() -> None:
             --neon-lime: #c7ff3d;
             --ink: #3f2b58;
             --soft-card: rgba(255, 255, 255, .72);
-            --font-display: "Arima", "Fraunces", Georgia, serif;
+            --font-display: "Fraunces", Georgia, serif;
             --font-fugaz: "Fugaz One", "Inter", sans-serif;
-            --font-script: "Grand Hotel", cursive;
+            --font-script: "Fraunces", Georgia, serif;
             --font-ui: "Inter", "Segoe UI", Arial, sans-serif;
         }
 
@@ -905,6 +905,7 @@ def inject_girlie_theme() -> None:
         .hello-heart {
             color: #f29db0;
             font-family: var(--font-script);
+            font-style: italic;
             font-size: .52em;
             font-weight: 400;
             text-shadow: 0 0 15px rgba(255, 151, 177, .22);
@@ -966,6 +967,7 @@ def inject_girlie_theme() -> None:
             z-index: 2;
             color: #f191a8;
             font-family: var(--font-script);
+            font-style: italic;
             font-size: clamp(1.45rem, 3vw, 2rem);
             line-height: 1;
             margin: .52rem auto .05rem;
@@ -975,6 +977,7 @@ def inject_girlie_theme() -> None:
         .login-footer-heart {
             color: #cda1ef;
             font-family: var(--font-script);
+            font-style: italic;
             font-size: 1.2rem;
             line-height: 1;
         }
@@ -1219,10 +1222,12 @@ def inject_girlie_theme() -> None:
         }
 
         .routine-subtitle {
-            color: rgba(63, 43, 88, .72);
+            color: #f191a8;
             font-family: var(--font-script);
-            font-size: clamp(1.35rem, 3vw, 2rem);
-            line-height: 1.05;
+            font-style: italic;
+            font-size: clamp(1.45rem, 3vw, 2.05rem);
+            font-weight: 650;
+            line-height: .95;
             margin-top: .25rem;
         }
 
@@ -1331,6 +1336,7 @@ def inject_girlie_theme() -> None:
         .mantra-text {
             color: #ff5b8a;
             font-family: var(--font-script);
+            font-style: italic;
             font-size: clamp(1.35rem, 3vw, 2.1rem);
             line-height: 1.05;
         }
@@ -1456,8 +1462,10 @@ def inject_girlie_theme() -> None:
         .discipline-script {
             color: #ff8ea3;
             font-family: var(--font-script);
-            font-size: 1.82rem;
-            line-height: .85;
+            font-style: italic;
+            font-size: 1.58rem;
+            font-weight: 650;
+            line-height: .95;
         }
 
         .become-pill {
@@ -1481,8 +1489,9 @@ def inject_girlie_theme() -> None:
         .become-pill span {
             color: #fff7bf;
             font-family: var(--font-script);
-            font-size: 1.95rem;
-            font-weight: 400;
+            font-style: italic;
+            font-size: 1.72rem;
+            font-weight: 650;
             letter-spacing: 0;
             text-transform: none;
         }
