@@ -1,0 +1,24 @@
+{
+  "name": "Greatest Me",
+  "short_name": "Greatest Me",
+  "description": "Greatest Me routine and money planner",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fffdfb",
+  "theme_color": "#fffdfb",
+  "icons": [
+    {
+      "src": "./apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "./app-icon.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}

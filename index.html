@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+    <title>Greatest Me</title>
+    <meta name="description" content="Greatest Me routine and money planner">
+    <meta name="theme-color" content="#fffdfb">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-title" content="Greatest Me">
+    <meta name="application-name" content="Greatest Me">
+    <link rel="apple-touch-icon" sizes="180x180" href="./apple-touch-icon.png?v=20260616">
+    <link rel="apple-touch-icon-precomposed" sizes="180x180" href="./apple-touch-icon.png?v=20260616">
+    <link rel="icon" type="image/png" href="./favicon.png?v=20260616">
+    <link rel="manifest" href="./site.webmanifest?v=20260616">
+    <style>
+      :root {
+        color-scheme: light;
+        font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "Helvetica Neue", Arial, sans-serif;
+      }
+
+      body {
+        min-height: 100svh;
+        margin: 0;
+        display: grid;
+        place-items: center;
+        background:
+          radial-gradient(circle at 16% 12%, rgba(209, 214, 255, .32), transparent 30%),
+          radial-gradient(circle at 88% 86%, rgba(255, 202, 214, .38), transparent 34%),
+          linear-gradient(180deg, #fffdfb 0%, #fffaf8 100%);
+        color: #2f2933;
+      }
+
+      main {
+        width: min(360px, calc(100vw - 44px));
+        text-align: center;
+      }
+
+      img {
+        width: 122px;
+        height: 122px;
+        border-radius: 28px;
+        display: block;
+        margin: 0 auto 22px;
+        box-shadow: 0 20px 48px rgba(244, 154, 173, .24);
+      }
+
+      h1 {
+        margin: 0 0 8px;
+        font-family: Georgia, "Times New Roman", serif;
+        font-size: 42px;
+        line-height: .95;
+        font-weight: 700;
+      }
+
+      p {
+        margin: 0 0 20px;
+        color: #756a78;
+        font-size: 16px;
+        line-height: 1.4;
+      }
+
+      a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-height: 48px;
+        padding: 0 22px;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff9bad, #ffd66d);
+        color: white;
+        font-size: 15px;
+        font-weight: 700;
+        text-decoration: none;
+        box-shadow: 0 14px 28px rgba(244, 154, 173, .22);
+      }
+
+      .hint {
+        margin-top: 18px;
+        font-size: 13px;
+        color: #9a8d9e;
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <img src="./app-icon.png?v=20260616" alt="Greatest Me app icon">
+      <h1>Greatest Me</h1>
+      <p>Add this page to your Home Screen. It will open your app with the correct icon.</p>
+      <a href="https://greatest-me.streamlit.app/">Open app</a>
+      <div class="hint">From Safari: Share -> Add to Home Screen.</div>
+    </main>
+    <script>
+      const isStandalone = window.navigator.standalone || window.matchMedia("(display-mode: standalone)").matches;
+      if (isStandalone) {
+        window.setTimeout(() => {
+          window.location.replace("https://greatest-me.streamlit.app/");
+        }, 650);
+      }
+    </script>
+  </body>
+</html>
