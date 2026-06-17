@@ -127,9 +127,10 @@ def image_data_uri(path: Path) -> str:
 
 
 def inject_app_icon_links() -> None:
-    icon = image_data_uri(FAVICON_FILE)
-    app_icon = image_data_uri(APP_ICON_FILE)
-    apple_icon = image_data_uri(APPLE_TOUCH_ICON_FILE)
+    icon_version = str(int(max(APP_ICON_FILE.stat().st_mtime, APPLE_TOUCH_ICON_FILE.stat().st_mtime, FAVICON_FILE.stat().st_mtime)))
+    icon = f"/app/static/favicon.png?v={icon_version}"
+    app_icon = f"/app/static/app-icon.png?v={icon_version}"
+    apple_icon = f"/app/static/apple-touch-icon.png?v={icon_version}"
     manifest = {
         "name": "My Nest Egg",
         "short_name": "My Nest Egg",
@@ -140,8 +141,8 @@ def inject_app_icon_links() -> None:
         "background_color": "#ffffff",
         "theme_color": "#ffffff",
         "icons": [
-            {"src": apple_icon, "sizes": "180x180", "type": "image/png", "purpose": "any maskable"},
-            {"src": app_icon, "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
+            {"src": "/app/static/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any maskable"},
+            {"src": "/app/static/app-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
         ],
     }
     st.markdown(
