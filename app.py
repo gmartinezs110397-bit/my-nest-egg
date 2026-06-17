@@ -115,7 +115,10 @@ DEFAULT_DATA = {
 }
 
 
-st.set_page_config(page_title="My Nest Egg", page_icon=Image.open(APP_ICON_FILE), layout="wide")
+APP_DISPLAY_NAME = "GM"
+
+
+st.set_page_config(page_title=APP_DISPLAY_NAME, page_icon=Image.open(FAVICON_FILE), layout="wide")
 
 
 def image_data_uri(path: Path) -> str:
@@ -132,8 +135,8 @@ def inject_app_icon_links() -> None:
     app_icon = f"/app/static/app-icon.png?v={icon_version}"
     apple_icon = f"/app/static/apple-touch-icon.png?v={icon_version}"
     manifest = {
-        "name": "My Nest Egg",
-        "short_name": "My Nest Egg",
+        "name": APP_DISPLAY_NAME,
+        "short_name": APP_DISPLAY_NAME,
         "description": "Routine and money planner",
         "start_url": ".",
         "scope": ".",
@@ -149,8 +152,8 @@ def inject_app_icon_links() -> None:
         f"""
         <link rel="icon" type="image/png" href="{icon}">
         <link rel="apple-touch-icon" href="{apple_icon}">
-        <meta name="apple-mobile-web-app-title" content="My Nest Egg">
-        <meta name="application-name" content="My Nest Egg">
+        <meta name="apple-mobile-web-app-title" content="{APP_DISPLAY_NAME}">
+        <meta name="application-name" content="{APP_DISPLAY_NAME}">
         <meta name="theme-color" content="#ffffff">
         """,
         unsafe_allow_html=True,
@@ -183,8 +186,8 @@ def inject_app_icon_links() -> None:
             addElement('link', {{ rel: 'icon', type: 'image/png', sizes: '32x32', href: {json.dumps(icon)} }});
             addElement('link', {{ rel: 'shortcut icon', type: 'image/png', href: {json.dumps(icon)} }});
             addElement('link', {{ rel: 'apple-touch-icon', sizes: '180x180', href: {json.dumps(apple_icon)} }});
-            addElement('meta', {{ name: 'apple-mobile-web-app-title', content: 'My Nest Egg' }});
-            addElement('meta', {{ name: 'application-name', content: 'My Nest Egg' }});
+            addElement('meta', {{ name: 'apple-mobile-web-app-title', content: {json.dumps(APP_DISPLAY_NAME)} }});
+            addElement('meta', {{ name: 'application-name', content: {json.dumps(APP_DISPLAY_NAME)} }});
             addElement('meta', {{ name: 'theme-color', content: '#ffffff' }});
 
             if (window.parent.__myNestEggManifestUrl) {{
@@ -195,7 +198,7 @@ def inject_app_icon_links() -> None:
             const manifestUrl = URL.createObjectURL(blob);
             window.parent.__myNestEggManifestUrl = manifestUrl;
             addElement('link', {{ rel: 'manifest', href: manifestUrl }});
-            window.parent.document.title = 'My Nest Egg';
+            window.parent.document.title = {json.dumps(APP_DISPLAY_NAME)};
         }})();
         </script>
         """,
