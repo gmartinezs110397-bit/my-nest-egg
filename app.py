@@ -135,24 +135,14 @@ def inject_app_icon_links() -> None:
     icon = f"/app/static/favicon.png?v={icon_version}"
     app_icon = f"/app/static/app-icon.png?v={icon_version}"
     apple_icon = f"/app/static/apple-touch-icon.png?v={icon_version}"
-    manifest = {
-        "name": APP_DISPLAY_NAME,
-        "short_name": APP_DISPLAY_NAME,
-        "description": "Routine and money planner",
-        "start_url": ".",
-        "scope": ".",
-        "display": "standalone",
-        "background_color": "#ffffff",
-        "theme_color": "#ffffff",
-        "icons": [
-            {"src": "/app/static/apple-touch-icon.png", "sizes": "180x180", "type": "image/png", "purpose": "any maskable"},
-            {"src": "/app/static/app-icon.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable"},
-        ],
-    }
+    manifest = f"/app/static/site.webmanifest?v={icon_version}"
     st.markdown(
         f"""
         <link rel="icon" type="image/png" href="{icon}">
+        <link rel="shortcut icon" type="image/png" href="{icon}">
         <link rel="apple-touch-icon" href="{apple_icon}">
+        <link rel="apple-touch-icon-precomposed" href="{apple_icon}">
+        <link rel="manifest" href="{manifest}">
         <meta name="apple-mobile-web-app-title" content="{APP_DISPLAY_NAME}">
         <meta name="application-name" content="{APP_DISPLAY_NAME}">
         <meta name="theme-color" content="#ffffff">
@@ -187,18 +177,11 @@ def inject_app_icon_links() -> None:
             addElement('link', {{ rel: 'icon', type: 'image/png', sizes: '32x32', href: {json.dumps(icon)} }});
             addElement('link', {{ rel: 'shortcut icon', type: 'image/png', href: {json.dumps(icon)} }});
             addElement('link', {{ rel: 'apple-touch-icon', sizes: '180x180', href: {json.dumps(apple_icon)} }});
+            addElement('link', {{ rel: 'apple-touch-icon-precomposed', sizes: '180x180', href: {json.dumps(apple_icon)} }});
+            addElement('link', {{ rel: 'manifest', href: {json.dumps(manifest)} }});
             addElement('meta', {{ name: 'apple-mobile-web-app-title', content: {json.dumps(APP_DISPLAY_NAME)} }});
             addElement('meta', {{ name: 'application-name', content: {json.dumps(APP_DISPLAY_NAME)} }});
             addElement('meta', {{ name: 'theme-color', content: '#ffffff' }});
-
-            if (window.parent.__myNestEggManifestUrl) {{
-                URL.revokeObjectURL(window.parent.__myNestEggManifestUrl);
-            }}
-            const manifest = {json.dumps(manifest)};
-            const blob = new Blob([JSON.stringify(manifest)], {{ type: 'application/manifest+json' }});
-            const manifestUrl = URL.createObjectURL(blob);
-            window.parent.__myNestEggManifestUrl = manifestUrl;
-            addElement('link', {{ rel: 'manifest', href: manifestUrl }});
             window.parent.document.title = {json.dumps(APP_DISPLAY_NAME)};
         }})();
         </script>
