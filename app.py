@@ -238,11 +238,15 @@ def inject_girlie_theme() -> None:
 
         .stApp:has(.girlie-login) {
             min-height: 100vh;
-            background: var(--login-cover), #ffffff;
-            background-size: auto 100%;
+            background:
+                radial-gradient(ellipse at 10% 8%, rgba(209, 214, 255, .30), transparent 34%),
+                radial-gradient(ellipse at 92% 75%, rgba(255, 202, 214, .34), transparent 34%),
+                radial-gradient(ellipse at 50% 50%, rgba(255, 239, 245, .38), transparent 31%),
+                linear-gradient(180deg, #fffdfb 0%, #fffaf8 60%, #fffdfb 100%);
+            background-size: cover;
             background-position: center center;
             background-repeat: no-repeat;
-            background-attachment: fixed;
+            background-attachment: scroll;
         }
 
         .stApp:has(.girlie-login) [data-testid="stHeader"] {
@@ -779,15 +783,15 @@ def inject_girlie_theme() -> None:
             position: relative;
             z-index: 2;
             width: min(980px, 96vw);
-            min-height: min(46vh, 25rem);
+            min-height: clamp(17.2rem, 36vh, 25rem);
             margin: 0 auto;
             text-align: center;
-            padding: 0;
+            padding: clamp(.45rem, 1.8vh, 1.1rem) 0 0;
             overflow: visible;
         }
 
         .girlie-login > *:not(.passcode-dots):not(.login-monogram) {
-            display: none !important;
+            display: block !important;
         }
 
         .girlie-login::before {
@@ -800,25 +804,25 @@ def inject_girlie_theme() -> None:
 
         .login-palm-shadow {
             position: absolute;
-            left: -18vw;
-            top: -5.5rem;
-            width: 35rem;
-            height: 18rem;
+            left: max(-13rem, -15vw);
+            top: clamp(1rem, 5vh, 4rem);
+            width: clamp(18rem, 34vw, 31rem);
+            height: clamp(13rem, 22vw, 19rem);
             z-index: 0;
-            opacity: .36;
-            filter: blur(2px);
-            transform: rotate(-10deg);
+            opacity: .22;
+            filter: blur(1.2px);
+            transform: rotate(-14deg);
             pointer-events: none;
         }
 
         .login-palm-shadow span {
             position: absolute;
-            left: 3rem;
-            top: 8rem;
-            width: 25rem;
-            height: 1.05rem;
+            left: 2.4rem;
+            top: 7.5rem;
+            width: clamp(15rem, 29vw, 25rem);
+            height: .8rem;
             border-radius: 999px;
-            background: linear-gradient(90deg, rgba(61, 47, 77, .38), transparent 74%);
+            background: linear-gradient(90deg, rgba(61, 47, 77, .22), transparent 74%);
             transform-origin: left center;
         }
 
@@ -831,12 +835,12 @@ def inject_girlie_theme() -> None:
 
         .login-flower-spray {
             position: absolute;
-            right: -7vw;
-            bottom: -30rem;
-            width: 22rem;
-            height: 25rem;
+            right: max(-5rem, -5vw);
+            bottom: clamp(-23rem, -26vh, -12rem);
+            width: clamp(13rem, 25vw, 22rem);
+            height: clamp(18rem, 33vw, 27rem);
             z-index: 0;
-            opacity: .70;
+            opacity: .52;
             pointer-events: none;
         }
 
@@ -877,16 +881,16 @@ def inject_girlie_theme() -> None:
         .hello-lockup {
             position: relative;
             z-index: 3;
-            margin: -.05rem auto .56rem;
+            margin: clamp(2.85rem, 7vh, 4.5rem) auto .56rem;
             color: #22172f;
         }
 
         .login-monogram {
             position: absolute;
             left: 50%;
-            top: clamp(.25rem, 1.45vh, .95rem);
+            top: clamp(.45rem, 1.6vh, 1.05rem);
             z-index: 7;
-            width: clamp(3.05rem, 5.3vw, 4.55rem);
+            width: clamp(3.0rem, 5.2vw, 4.45rem);
             aspect-ratio: 949 / 678;
             margin: 0;
             background-image: var(--login-gm-mark);
@@ -1170,21 +1174,21 @@ def inject_girlie_theme() -> None:
             min-height: 4.45rem;
             margin: .12rem auto;
             border-radius: 50%;
-            border: 0 !important;
-            background: transparent !important;
-            backdrop-filter: none;
-            box-shadow: none !important;
-            color: transparent !important;
+            border: 1px solid rgba(255, 255, 255, .82) !important;
+            background: rgba(255, 255, 255, .50) !important;
+            backdrop-filter: blur(12px);
+            box-shadow: 0 12px 28px rgba(219, 160, 190, .12), inset 0 1px 0 rgba(255,255,255,.9) !important;
+            color: #57505a !important;
             font-size: 1.52rem;
             font-family: var(--font-apple);
-            font-weight: 700;
+            font-weight: 500;
             letter-spacing: 0;
             line-height: 1;
             text-shadow: none;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button p {
-            color: transparent !important;
+            color: #57505a !important;
             display: flex;
             align-items: center;
             justify-content: center;
@@ -1194,22 +1198,23 @@ def inject_girlie_theme() -> None:
             padding: 0 !important;
             text-align: center;
             line-height: 1;
-            font-weight: 700;
+            font-weight: 500;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button:hover {
-            border-color: transparent;
-            color: transparent;
-            box-shadow: none;
+            border-color: rgba(255, 255, 255, .9);
+            color: #4b4350 !important;
+            background: rgba(255, 255, 255, .66) !important;
+            box-shadow: 0 14px 30px rgba(219, 160, 190, .14), inset 0 1px 0 rgba(255,255,255,.92) !important;
         }
 
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_backspace button,
         div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) .st-key-passcode_clear button {
-            background: transparent !important;
-            box-shadow: none !important;
-            border-color: transparent !important;
+            background: rgba(255, 255, 255, .50) !important;
+            box-shadow: 0 12px 28px rgba(219, 160, 190, .12), inset 0 1px 0 rgba(255,255,255,.9) !important;
+            border-color: rgba(255, 255, 255, .82) !important;
             font-size: 1.02rem;
-            font-weight: 700;
+            font-weight: 500;
         }
 
         .routine-hero {
@@ -1695,25 +1700,51 @@ def inject_girlie_theme() -> None:
             }
 
             .stApp:has(.girlie-login) {
-                background-image: var(--login-cover-mobile);
+                background:
+                    radial-gradient(ellipse at 0% 18%, rgba(209, 214, 255, .28), transparent 36%),
+                    radial-gradient(ellipse at 100% 66%, rgba(255, 202, 214, .30), transparent 34%),
+                    radial-gradient(ellipse at 50% 50%, rgba(255, 239, 245, .30), transparent 30%),
+                    linear-gradient(180deg, #fffdfb 0%, #fffaf8 62%, #fffdfb 100%);
                 background-size: cover;
                 background-position: center top;
             }
 
             .girlie-login {
-                min-height: 30.5vh;
+                width: 100vw;
+                min-height: 33vh;
+                padding-top: 1.15rem;
+            }
+
+            .login-palm-shadow {
+                left: -9.8rem;
+                top: 6.1rem;
+                width: 21rem;
+                height: 16rem;
+                opacity: .24;
+            }
+
+            .login-flower-spray {
+                right: -3.9rem;
+                bottom: -22.8rem;
+                width: 14.5rem;
+                height: 26rem;
+                opacity: .58;
             }
 
             .login-monogram {
                 display: block;
-                top: 1.9vh;
-                width: 4.15rem;
+                top: 1rem;
+                width: 3.65rem;
+            }
+
+            .hello-lockup {
+                margin-top: 4.05rem;
             }
 
             .passcode-dots {
                 left: 50%;
-                top: 28.8vh;
-                gap: 2.48rem;
+                top: 29.25vh;
+                gap: 2.36rem;
             }
 
             .passcode-dot {
@@ -1727,7 +1758,7 @@ def inject_girlie_theme() -> None:
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div[data-testid="stHorizontalBlock"] {
                 width: min(304px, 82vw);
                 gap: .50rem !important;
-                transform: translateX(17px);
+                transform: none;
             }
 
             div[data-testid="stVerticalBlock"]:has(.passcode-grid-marker) div.stButton > button {
@@ -1798,20 +1829,44 @@ def inject_girlie_theme() -> None:
 
         @media (min-width: 641px) and (max-width: 1024px) and (orientation: portrait) {
             .stApp:has(.girlie-login) {
-                background-image: var(--login-cover-ipad);
-                background-size: contain;
+                background:
+                    radial-gradient(ellipse at 3% 18%, rgba(209, 214, 255, .28), transparent 34%),
+                    radial-gradient(ellipse at 96% 68%, rgba(255, 202, 214, .32), transparent 34%),
+                    radial-gradient(ellipse at 50% 50%, rgba(255, 239, 245, .32), transparent 31%),
+                    linear-gradient(180deg, #fffdfb 0%, #fffaf8 62%, #fffdfb 100%);
+                background-size: cover;
                 background-position: center top;
                 background-repeat: no-repeat;
             }
 
             .girlie-login {
-                min-height: 29vh;
+                min-height: 31vh;
+            }
+
+            .login-palm-shadow {
+                left: -9rem;
+                top: 8.4rem;
+                width: 30rem;
+                height: 20rem;
+                opacity: .22;
+            }
+
+            .login-flower-spray {
+                right: -2.5rem;
+                bottom: -27rem;
+                width: 21rem;
+                height: 31rem;
+                opacity: .56;
             }
 
             .login-monogram {
                 display: block;
-                top: 2.25vh;
-                width: 4.85rem;
+                top: 1.5rem;
+                width: 4.65rem;
+            }
+
+            .hello-lockup {
+                margin-top: 5.2rem;
             }
 
             .passcode-dots {
@@ -2403,6 +2458,85 @@ def save_data(data: dict) -> None:
     DATA_FILE.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
 
 
+def render_install_page() -> None:
+    icon = image_data_uri(APP_ICON_FILE)
+    st.markdown(
+        f"""
+        <style>
+            .stApp {{
+                background:
+                    radial-gradient(circle at 16% 12%, rgba(209, 214, 255, .30), transparent 30%),
+                    radial-gradient(circle at 88% 86%, rgba(255, 202, 214, .36), transparent 34%),
+                    linear-gradient(180deg, #fffdfb 0%, #fffaf8 100%);
+            }}
+
+            .install-card {{
+                width: min(360px, calc(100vw - 44px));
+                min-height: 78vh;
+                margin: 0 auto;
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
+                color: #2f2933;
+                font-family: var(--font-apple);
+            }}
+
+            .install-card img {{
+                width: 118px;
+                height: 118px;
+                border-radius: 27px;
+                margin-bottom: 1.2rem;
+                box-shadow: 0 18px 45px rgba(244, 154, 173, .24);
+            }}
+
+            .install-card h1 {{
+                margin: 0 0 .45rem;
+                font-family: "Fraunces", Georgia, serif;
+                font-size: 2.45rem;
+                line-height: .95;
+                font-weight: 650;
+                color: #2b272d !important;
+            }}
+
+            .install-card p {{
+                margin: 0 0 1.1rem;
+                color: #756a78;
+                font-size: .98rem;
+                line-height: 1.42;
+            }}
+
+            .install-steps {{
+                width: 100%;
+                padding: 1rem;
+                border: 1px solid rgba(242, 157, 176, .25);
+                border-radius: 24px;
+                background: rgba(255, 255, 255, .62);
+                box-shadow: 0 18px 50px rgba(90, 72, 104, .08);
+            }}
+
+            .install-steps div {{
+                padding: .52rem 0;
+                font-size: .94rem;
+            }}
+        </style>
+        <div class="install-card">
+            <img src="{icon}" alt="Greatest Me app icon">
+            <h1>Greatest Me</h1>
+            <p>Add this page to your Home Screen from Safari.</p>
+            <div class="install-steps">
+                <div>1. Tap the share button.</div>
+                <div>2. Choose Add to Home Screen.</div>
+                <div>3. Save it as Greatest Me.</div>
+            </div>
+        </div>
+        """,
+        unsafe_allow_html=True,
+    )
+    st.stop()
+
+
 def require_password() -> None:
     PASSCODE_LENGTH = 4
     password = st.secrets.get("APP_PASSWORD", "")
@@ -2978,6 +3112,8 @@ def render_plan(plan: dict) -> None:
 def main() -> None:
     inject_girlie_theme()
     inject_app_icon_links()
+    if st.query_params.get("install") == "1":
+        render_install_page()
     require_password()
     init_state()
 
