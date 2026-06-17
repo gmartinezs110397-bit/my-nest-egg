@@ -116,7 +116,7 @@ DEFAULT_DATA = {
 }
 
 
-APP_DISPLAY_NAME = "GM"
+APP_DISPLAY_NAME = "Greatest Me"
 
 
 st.set_page_config(page_title=APP_DISPLAY_NAME, page_icon=Image.open(FAVICON_FILE), layout="wide")
