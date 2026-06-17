@@ -23,6 +23,7 @@ LOGIN_BG_FILE = APP_DIR / "assets" / "login-sunset.png"
 LOGIN_COVER_FILE = APP_DIR / "assets" / "login-cover-reference.jpg"
 LOGIN_COVER_MOBILE_FILE = APP_DIR / "assets" / "login-cover-mobile.jpg"
 LOGIN_COVER_IPAD_FILE = APP_DIR / "assets" / "login-cover-ipad.jpg"
+LOGIN_GM_MARK_FILE = APP_DIR / "assets" / "login-gm-mark.png"
 
 WEEKDAYS = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
 WEEKDAY_ABBR = ["M", "T", "W", "T", "F", "S", "S"]
@@ -212,6 +213,7 @@ def inject_girlie_theme() -> None:
     login_cover = image_data_uri(LOGIN_COVER_FILE)
     login_cover_mobile = image_data_uri(LOGIN_COVER_MOBILE_FILE)
     login_cover_ipad = image_data_uri(LOGIN_COVER_IPAD_FILE)
+    login_gm_mark = image_data_uri(LOGIN_GM_MARK_FILE)
     st.markdown(
         """
         <style>
@@ -220,6 +222,7 @@ def inject_girlie_theme() -> None:
             --login-cover: url('__LOGIN_COVER__');
             --login-cover-mobile: url('__LOGIN_COVER_MOBILE__');
             --login-cover-ipad: url('__LOGIN_COVER_IPAD__');
+            --login-gm-mark: url('__LOGIN_GM_MARK__');
         }
 
         @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,650;0,9..144,750;1,9..144,650;1,9..144,750&family=Fugaz+One&family=Inter:wght@400;500;600;700;800;900&display=swap');
@@ -800,7 +803,7 @@ def inject_girlie_theme() -> None:
             overflow: visible;
         }
 
-        .girlie-login > *:not(.passcode-dots) {
+        .girlie-login > *:not(.passcode-dots):not(.login-monogram) {
             display: none !important;
         }
 
@@ -896,23 +899,19 @@ def inject_girlie_theme() -> None:
         }
 
         .login-monogram {
-            position: relative;
-            z-index: 2;
-            color: #f49aad;
-            font-family: "Fraunces", Georgia, serif;
-            font-size: clamp(2.35rem, 5.6vw, 3.75rem);
-            font-weight: 650;
-            line-height: .8;
-            margin-bottom: .18rem;
-            text-shadow: 0 8px 22px rgba(255, 155, 180, .16);
-        }
-
-        .login-monogram span {
-            color: #f6a6bd;
-            font-family: var(--font-script);
-            font-size: .56em;
-            font-weight: 400;
-            margin-left: .12rem;
+            position: absolute;
+            left: 50%;
+            top: clamp(.25rem, 1.45vh, .95rem);
+            z-index: 7;
+            width: clamp(3.05rem, 5.3vw, 4.55rem);
+            aspect-ratio: 949 / 678;
+            margin: 0;
+            background-image: var(--login-gm-mark);
+            background-size: contain;
+            background-position: center;
+            background-repeat: no-repeat;
+            transform: translateX(-50%);
+            filter: drop-shadow(0 8px 18px rgba(255, 155, 180, .12));
         }
 
         .hello-line {
@@ -1722,6 +1721,12 @@ def inject_girlie_theme() -> None:
                 min-height: 30.5vh;
             }
 
+            .login-monogram {
+                display: block;
+                top: 1.9vh;
+                width: 4.15rem;
+            }
+
             .passcode-dots {
                 left: 50%;
                 top: 28.8vh;
@@ -1818,6 +1823,12 @@ def inject_girlie_theme() -> None:
 
             .girlie-login {
                 min-height: 29vh;
+            }
+
+            .login-monogram {
+                display: block;
+                top: 2.25vh;
+                width: 4.85rem;
             }
 
             .passcode-dots {
@@ -1925,7 +1936,7 @@ def inject_girlie_theme() -> None:
             50% { opacity: 1; transform: scale(1.2) rotate(14deg); }
         }
         </style>
-        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover).replace("__LOGIN_COVER_MOBILE__", login_cover_mobile).replace("__LOGIN_COVER_IPAD__", login_cover_ipad),
+        """.replace("__LOGIN_BG__", login_bg).replace("__LOGIN_COVER__", login_cover).replace("__LOGIN_COVER_MOBILE__", login_cover_mobile).replace("__LOGIN_COVER_IPAD__", login_cover_ipad).replace("__LOGIN_GM_MARK__", login_gm_mark),
         unsafe_allow_html=True,
     )
 
@@ -1944,7 +1955,7 @@ def render_login_hero() -> None:
             <div class="login-sparkle two">✧</div>
             <div class="login-sparkle three">✧</div>
             <div class="login-sparkle four">✧</div>
-            <div class="login-monogram">GM<span>♡</span></div>
+            <div class="login-monogram" aria-label="GM"></div>
             <div class="hello-lockup">
                 <span class="hello-line hello-serif">Hello,</span>
                 <span class="hello-line hello-script">baby girl<span class="hello-heart">♡</span></span>
