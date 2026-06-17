@@ -1723,7 +1723,7 @@ def inject_girlie_theme() -> None:
             }
 
             .passcode-dots {
-                left: calc(50% + 17px);
+                left: 50%;
                 top: 28.8vh;
                 gap: 2.48rem;
             }
